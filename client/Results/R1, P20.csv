@@ -1,0 +1,46 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1
+1,2024-08-27T10:51:15.974854,"conde de olocau, s/n, 3g",200,200,200,both_correct,"conde	de olocau,/**/s/n, 3g",2024-08-27T10:51:17.531128,200,200,both_correct
+2,2024-08-27T10:51:19.717202,-4803%')) or 8571=8571-,403,403,403,both_correct,"-7355 not like/**/0x1cbc%')) OR
+(sEleCT 1)=8571-",2024-08-27T10:51:20.770690,403,200,waf_correct_ml_incorrect
+3,2024-08-27T10:51:23.793983,"c/ja del indiano, s/n,",200,200,403,waf_correct_ml_incorrect,"c/ja
+del/**/indiano, s/n,",2024-08-27T10:51:24.804077,403,200,waf_incorrect_ml_correct
+4,2024-08-27T10:51:26.889902,paris-loisel@viavilano.cr,200,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:51:28.029588,200,200,both_correct
+5,2024-08-27T10:51:30.150717,-3520%' or 8571=8571--,403,403,403,both_correct,-3520%'/**/Or 8571	LIke (SElECT (seLECt '&'<>'&?'))--,2024-08-27T10:51:31.164570,403,200,waf_correct_ml_incorrect
+6,2024-08-27T10:51:34.411493,"1'||(select 'votg' where 5105=5105 or 8156=(select count(*) from generate_series(1,5000000))--",403,403,403,both_correct,"(SELect 1)'||(select/**/'votg' whErE 5105=5105 Or  AND 1!=7648 LIKe
+(seleCt count(*) FroM generate_series(1,5000000))--",2024-08-27T10:51:38.674818,403,403,both_correct
+7,2024-08-27T10:51:44.964039,1;select (case when (4624=4844) then 4624 else 1/(select 0) end)--,403,403,403,both_correct,1;seLEcT (caSE whEn	('=H' not like '=HG'=4844) THEn 4624 eLsE/**/(SELECT 1)/(SeLeCT (SELECT 0)) End)--,2024-08-27T10:51:47.688876,403,403,both_correct
+8,2024-08-27T10:51:52.930252,"c/ la hoz, 17",200,200,200,both_correct,"c/
+la hoz, (selECt (seLeCt 1))/**/lIKE 2873",2024-08-27T10:51:53.601525,200,200,both_correct
+9,2024-08-27T10:51:56.461366,"1"""" where 1920=1920 and 8635=(select count(*) from generate_series(1,5000000))--",403,200,403,waf_incorrect_ml_correct,"(SeLEct 1)"""" wHeRe 1920=1920 And (seleCt 1)=(SEleCt count(*)	FRom/**/generate_series(1,':}' not like ':}g'))--",2024-08-27T10:51:59.780855,403,403,both_correct
+10,2024-08-27T10:52:05.653937,"pintanos, los",200,200,200,both_correct,"pintanos,/**/los",2024-08-27T10:52:06.324804,200,200,both_correct
+11,2024-08-27T10:52:08.147381,-2530%' order by 1#,403,403,403,both_correct,-0x9e2%'	order by  aNd 6909/**/NOT LIKE 6910#,2024-08-27T10:52:09.058731,200,403,waf_incorrect_ml_correct
+12,2024-08-27T10:52:12.244926,"1"""") as mszg where 6184=6184 rlike sleep(5)--",403,403,403,both_correct,"'$'!='$W'"""") As mszg/**/WHere 6184 LIKE 6184 rlike
+sleep((SELeCT  AND 1))--",2024-08-27T10:52:14.155965,403,403,both_correct
+13,2024-08-27T10:52:18.375207,"1"""")) as femc where 1313=1313 and 4595=4595#",403,200,403,waf_incorrect_ml_correct,"'v=ju('<>'v=ju(T'"""")) As/**/femc wherE 1313=1313	aND (SELECT 1) LIKE 0x11f3#<",2024-08-27T10:52:20.363092,403,403,both_correct
+14,2024-08-27T10:52:24.812029,1');begin dbms_lock.sleep(5); end and ('jzlr'='jzlr,403,403,403,both_correct,0x1');begin dbms_lock.sleep(2687	NOT LIKE (SELECT 1));/**/end and ('jzlr'='jzlr,2024-08-27T10:52:27.045861,403,403,both_correct
+15,2024-08-27T10:52:31.843865,1) as afmb where 8665=8665 order by 1#,403,403,403,both_correct,"1)
+aS afmb WhERE 8665 like (SELECT (SELECT 1))/*L{PJ*/order by 8779<>8780#",2024-08-27T10:52:33.592322,403,403,both_correct
+16,2024-08-27T10:52:38.119777,"1%""""))) union all select null,null--",403,403,403,both_correct," aND
+0x1%"""")))/*!L^*/union all sElECt null,null--",2024-08-27T10:52:39.913976,403,403,both_correct
+17,2024-08-27T10:52:43.509522,1' and 5967=4184#,403,403,403,both_correct,"1'/**/AnD
+(sElECT (SELECT 1)) likE 'H' LIKE 'H'#",2024-08-27T10:52:44.429981,403,403,both_correct
+18,2024-08-27T10:52:47.932389,"1"""";select count(*) from rdb$fields as t1,rdb$types as t2,rdb$collations as t3,rdb$functions as t4 and """"fkdx"""" like """"fkdx",403,403,200,waf_correct_ml_incorrect,"0x1"""";SeleCt count(*) from rdb$fields As t1,rdb$types as t2,rdb$collations As t3,rdb$functions
+aS t4 aND """"fkdx""""/**/LIKe """"fkdx",2024-08-27T10:52:54.459795,403,200,waf_correct_ml_incorrect
+19,2024-08-27T10:53:02.018445,"calle capitan godoy beltran, 120",200,200,200,both_correct,"calle capitan godoy beltran,/**/(SeleCT	 Or ''<>'%')",2024-08-27T10:53:03.380019,403,200,waf_incorrect_ml_correct
+20,2024-08-27T10:53:07.413043,"1%'))) and 8148=like('abcdefg',upper(hex(randomblob(500000000/2))))--",403,403,403,both_correct,"(SeLECt
+(sElEct 7427 In (7426,7427,7428)))%'))) and/**/8148=like('abcdefg',upper(hex(randomblob(500000000/2))))--",2024-08-27T10:53:11.314503,403,403,both_correct
+
+Overall Results
+WAF TP,25
+WAF TN,10
+WAF FP,2
+WAF FN,3
+ML TP,24
+ML TN,11
+ML FP,1
+ML FN,4
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,30,5
+ML Incorrect,5,0

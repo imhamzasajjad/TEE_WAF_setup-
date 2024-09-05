@@ -1,0 +1,29 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1
+1,2024-08-27T10:22:36.661947,paris-loisel@viavilano.cr,200,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:22:38.306112,200,200,both_correct
+2,2024-08-27T10:22:40.394736,"1"""") as mszg where 6184=6184 rlike sleep(5)--",403,403,403,both_correct,"0x1"""") As mszg wHere/**/6184 liKE ')
+L$' NOT LIKE ') L$A' rlike sleep( and 1)--",2024-08-27T10:22:42.290232,200,403,waf_incorrect_ml_correct
+3,2024-08-27T10:22:46.557722,"conde de olocau, s/n, 3g",200,200,200,both_correct,"conde de	olocau, s/n,/**/3g",2024-08-27T10:22:47.819146,200,200,both_correct
+4,2024-08-27T10:22:50.042882,-3520%' or 8571=8571--,403,403,403,both_correct,-4994 not/**/like 4995%' oR 8571=(selECt (sELect	1))--,2024-08-27T10:22:51.061709,403,200,waf_correct_ml_incorrect
+5,2024-08-27T10:22:54.294660,"c/ la hoz, 17",200,200,200,both_correct,"c/ la hoz,/**/(SELECT 1)",2024-08-27T10:22:54.950565,200,403,waf_correct_ml_incorrect
+6,2024-08-27T10:22:57.246100,1;select (case when (4624=4844) then 4624 else 1/(select 0) end)--,403,403,403,both_correct, OR/**/0;SelEct (cASE WhEN (4624 LIKE (sELect 4844)) tHEn 4624 eLse 1/(sELeCT '/pfAp'!='/pfApE')	ENd)--,2024-08-27T10:23:00.194729,403,200,waf_correct_ml_incorrect
+7,2024-08-27T10:23:05.554691,"1%') or 8315=(select count(*) from sysibm.systables as t1,sysibm.systables as t2,sysibm.systables as t3) and ('%'='",403,403,403,both_correct,"(SelEct  AND 1)%') or/*\eDi9*/'&'<>'&`'=(select count(*) from sysibm.systables as t1,sysibm.systables
+as t2,sysibm.systables as t3) and ('%'='",2024-08-27T10:23:10.440086,403,403,both_correct
+8,2024-08-27T10:23:17.104995,"pintanos, los",200,200,200,both_correct,"pintanos,/**/los",2024-08-27T10:23:17.723652,200,200,both_correct
+9,2024-08-27T10:23:19.503205,"1"""" where 1920=1920 and 8635=(select count(*) from generate_series(1,5000000))--",403,200,403,waf_incorrect_ml_correct,"6214 LIkE (sELECT 1)"""" whEre/**/1920=1920 AND 8635	LIkE (SELEct count(*) FROm generate_series((SELEct 1),5000000))--",2024-08-27T10:23:23.129916,403,403,both_correct
+10,2024-08-27T10:23:29.047673,1) as afmb where 8665=8665 order by 1#,403,403,403,both_correct," OR 0!=3073) AS afmb WHere 8665/**/LIKE (SeLect 8665) order
+by 1#l!",2024-08-27T10:23:30.701067,200,403,waf_incorrect_ml_correct
+
+Overall Results
+WAF TP,9
+WAF TN,8
+WAF FP,0
+WAF FN,3
+ML TP,10
+ML TN,7
+ML FP,1
+ML FN,2
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,14,3
+ML Incorrect,3,0

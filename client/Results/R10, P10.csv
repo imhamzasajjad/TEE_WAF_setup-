@@ -1,0 +1,164 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1,Fuzzed Payload 2,Fuzzed Timestamp 2,WAF Status 2,ML Status 2,Combined Result 2,Fuzzed Payload 3,Fuzzed Timestamp 3,WAF Status 3,ML Status 3,Combined Result 3,Fuzzed Payload 4,Fuzzed Timestamp 4,WAF Status 4,ML Status 4,Combined Result 4,Fuzzed Payload 5,Fuzzed Timestamp 5,WAF Status 5,ML Status 5,Combined Result 5,Fuzzed Payload 6,Fuzzed Timestamp 6,WAF Status 6,ML Status 6,Combined Result 6,Fuzzed Payload 7,Fuzzed Timestamp 7,WAF Status 7,ML Status 7,Combined Result 7,Fuzzed Payload 8,Fuzzed Timestamp 8,WAF Status 8,ML Status 8,Combined Result 8,Fuzzed Payload 9,Fuzzed Timestamp 9,WAF Status 9,ML Status 9,Combined Result 9,Fuzzed Payload 10,Fuzzed Timestamp 10,WAF Status 10,ML Status 10,Combined Result 10
+1,2024-08-27T10:32:57.199471,"1%') or 8315=(select count(*) from sysibm.systables as t1,sysibm.systables as t2,sysibm.systables as t3) and ('%'='",403,403,403,both_correct,"'\'/**/LIKE '\'%') or	0x207b LIKE (sELeCt count(*) From sysibm.systables AS t1,sysibm.systables As t2,sysibm.systables As t3) and ('%'='",2024-08-27T10:33:02.343297,403,403,both_correct,"'\'/**/LIKE '\'%') or	0x207b LIKe/*8R1*/(SELECT count(*) frOM sysibm.systables As t1,sysibm.systables AS
+t2,sysibm.systables As t3) And ('%' LIKE '",2024-08-27T10:33:09.514710,403,403,both_correct,"'\'/**/LIKE '\'%') Or
+0x207b lIke (SeLECt count(*) fRoM sysibm.systables as t1,sysibm.systables AS
+t2,sysibm.systables aS t3) And ('%' lIKE '",2024-08-27T10:33:16.506951,403,200,waf_correct_ml_incorrect,"'\' LIKE '\'%') or
+0x207b LiKE (sELECt count(*) From sysibm.systables As t1,sysibm.systables AS	t2,sysibm.systables AS t3) aNd ('%' LIkE '",2024-08-27T10:33:23.768083,403,403,both_correct,"'\' LIKE '\'%') or
+0x207b like (sELeCT count(*) FRom sysibm.systables as t1,sysibm.systables
+As	t2,sysibm.systables as t3) And ('%' Like/*bS*/'",2024-08-27T10:33:30.466426,403,200,waf_correct_ml_incorrect,"'\' LIKE '\'%') OR
+0x207b lIKe (seLeCt count(*) FROm sysibm.systables As t1,sysibm.systables
+AS
+t2,sysibm.systables As t3) ANd ('%' LIKe '",2024-08-27T10:33:37.260143,403,403,both_correct,"'\' LIKE '\'%')
+||
+0x207b LIKE (seleCt count(*) From sysibm.systables as t1,sysibm.systables
+aS
+t2,sysibm.systables aS t3) aND ('%'/**/liKe '",2024-08-27T10:33:44.350720,403,403,both_correct,"'\' LIKE '\'%')
+ Or 
+0x207b liKE (SeLECt count(*) FRoM sysibm.systables as t1,sysibm.systables
+AS
+t2,sysibm.systables As t3) aNd	('%' lIKE '",2024-08-27T10:33:51.311444,403,403,both_correct,"'\' LIKE '\'%')
+ OR 
+0x207b LikE/*!(SELECT ')?' LIKE ')?')*/(sElect count(*) FrOM sysibm.systables AS t1,sysibm.systables
+as
+t2,sysibm.systables As t3) and ('%' LIkE '",2024-08-27T10:33:58.982272,403,403,both_correct,"'\' LIKE '\'%')
+ Or 
+0x207b likE/*!(SELECT ')?' LIKE ')?')*/(SELect count(*)
+frOm sysibm.systables AS t1,sysibm.systables
+aS
+t2,sysibm.systables as t3) ANd ('%'/**/likE '",2024-08-27T10:34:08.115891,403,403,both_correct
+2,2024-08-27T10:34:16.933649,"1"""" where 1920=1920 and 8635=(select count(*) from generate_series(1,5000000))--",403,200,403,waf_incorrect_ml_correct,"0x1"""" wHere/*Xvn*/'dV'='dV' liKE 1920 anD  and 1=(SElect count(*) FRom
+generate_series(1,5000000))--",2024-08-27T10:34:20.539520,200,403,waf_incorrect_ml_correct,"0x1"""" wHErE/**/'dV'='dV' like  OR 0 ANd  anD/**/(SELECT 1) liKE (SeLECT count(*) fRoM	generate_series(1,4255 In (4254,4255,4256)))--",2024-08-27T10:34:26.320675,403,403,both_correct,"0x1"""" WHEre/**/'dV' LIKE 'dV' LiKe  Or 0 aNd  and/**/(sElect 1) likE (SElect count(*) frOm
+generate_series(5827!=(sElect/**/0x1),4255 in (4254,4255,4256)))--",2024-08-27T10:34:33.748189,403,403,both_correct,"0x1"""" wheRE/**/'dV' lIkE 'dV' LikE  Or 0 And  AnD (select 1) liKe (SElEcT count(*) fROM
+generate_series(5827<>(Select/***/0x1),'w
+'!='w	$' iN ((SELeCT 4254),4255,(sELecT 1))))--",2024-08-27T10:34:41.927985,403,403,both_correct,"0x1"""" WhErE/**/'dV' LiKE 'dV' Like  Or 0x0 ANd  AnD (SELEcT 1) LIKE (selecT count(*) FRoM
+generate_series(5827!=(selecT/***/0x1),'w
+'!='w $' IN ((selECt 7500 NOT/*>:$~*/LiKe 7501),(SelECt 1),(SeLeCT 1))))--",2024-08-27T10:34:51.269821,403,403,both_correct,"0x1"""" WherE/**/'dV' likE 'dV' lIKe  or 0x0 aNd /**/And (SeleCT (SELECT '#O' NOT LIKE '#O""')) LIke (SELecT count(*) FrOM generate_series(5827!=(selEct/***/0x1),'w
+' NOT LIKE 'w $' In ((SelECT 7500 NOT/*>:$~*/lIke 7501),(SeLeCt 1),(sEleCt 0x1))))--",2024-08-27T10:35:02.483388,403,403,both_correct,"0x1"""" wHerE/**/'dV' LiKe 'dV' liKE
+ || 0x0 AnD /**/aND (sElECt/**/(selECT '#O' NOT LIKE '#O""')) lIKe (SeLeCt count(*) from generate_series(5827!=(seleCt/***/0x1),'w
+' NOT LIKE 'w $' in ((SelECT (SELECT 7500) NOT/*>:$~*/liKe 8576 LIKE  AND 1),(sEleCT 1),(SELEcT 0x1))))--)",2024-08-27T10:35:14.642139,403,403,both_correct,"0x1"""" WHeRE/**/'dV' lIkE 'dV' lIKE	 || 0x0 ANd  And (sElecT/**/(SelEct '#O' NOT LIKE '#O""')) liKE (sElect count(*) FROM generate_series(5827!=(select/***/0x1),'w
+' not like 'w $' In ((SELecT (SElEcT 7500) NOT/*>:$~*/LiKE '~k' LIKE '~k' LiKe  ANd  or 0),(SeLEcT (SELECT 1)),(selEcT 0x1))))--)'6",2024-08-27T10:35:28.852747,403,403,both_correct,"0x1"""" WHEre 'dV' lIkE 'dV' LIKe
+  oR  0x0 AnD  AnD (seLEct/*wuyw*/(sELECt '#O' NOT LIKE '#O""')) LIke (SeLeCt count(*) fRom generate_series( AND 1!=(SElEct/***/0x1),'w
+' not like 'w $' IN ((SELECT (SeleCt 7500) NOT/**/liKe '~k' lIKe '~k' Like  and  OR 'cQ3' LIKE 'cQ3'),(SelecT (SEleCT 1)),(SelECt 0x1))))--)'0x6",2024-08-27T10:35:42.509716,403,403,both_correct,"0x1"""" WHERe 'dV' LiKE 'dV' LiKe   ||  0x0 And  And (SELECt/**/(SElECT '#O' NOT LIKE '#O""')) liKE (SELEcT count(*)/*0pfF)*/frOm generate_series( and 1!=(selecT/***/0x1),'w
+' not like 'w $' in ((SeLeCT (SELECT (SELECT 7500)) NOT/**/lIKe '~k' LIke '~k' likE  aND  oR 'cQ3' LiKe 'cQ3'),(sELECt (SElEcT (Select 6112=6112))),(SELECt 0x1))))--)'0x6",2024-08-27T10:35:56.628867,403,403,both_correct
+3,2024-08-27T10:36:12.211161,"pintanos, los",200,200,200,both_correct,"pintanos,
+los",2024-08-27T10:36:12.847868,200,200,both_correct,"pintanos, los",2024-08-27T10:36:14.514865,200,200,both_correct,"pintanos,/**/los",2024-08-27T10:36:16.145057,200,200,both_correct,"pintanos, los",2024-08-27T10:36:17.904264,200,200,both_correct,"pintanos,
+los",2024-08-27T10:36:19.563884,200,200,both_correct,"pintanos,	los",2024-08-27T10:36:21.197156,200,200,both_correct,"pintanos, los",2024-08-27T10:36:22.842613,200,200,both_correct,"pintanos,/**/los",2024-08-27T10:36:24.555880,200,200,both_correct,"pintanos,
+los",2024-08-27T10:36:26.310011,200,200,both_correct,"pintanos, los",2024-08-27T10:36:27.962673,200,200,both_correct
+4,2024-08-27T10:36:29.592419,"1"""";select count(*) from rdb$fields as t1,rdb$types as t2,rdb$collations as t3,rdb$functions as t4 and """"fkdx"""" like """"fkdx",403,403,200,waf_correct_ml_incorrect,"(SELECT  AND 8095 LIKE 8095)"""";sElecT count(*) frOM rdb$fields AS t1,rdb$types/**/As t2,rdb$collations As t3,rdb$functions as	t4 AND """"fkdx"""" lIKe """"fkdx",2024-08-27T10:36:34.625844,403,403,both_correct,"(seleCT  anD 0x24e7<> AND 1 like 8095)"""";sElecT count(*) From rdb$fields As
+t1,rdb$types/*w*/AS t2,rdb$collations As t3,rdb$functions As	t4 && """"fkdx""""/**/Like """"fkdx",2024-08-27T10:36:42.432594,403,200,waf_correct_ml_incorrect,"(SELECt  AnD 0x24e7<> aND 0x1/**/likE '('='(')"""";sELeCt count(*) FRoM rdb$fields aS
+t1,rdb$types/*w*/as t2,rdb$collations As t3,rdb$functions aS
+t4 && """"fkdx""""/**/lIKE """"fkdx",2024-08-27T10:36:50.084461,403,200,waf_correct_ml_incorrect,"(SElect  AND 0x24e7	NOT LIKE  and 0x1/**/LIkE '('='(')"""";seLECT count(*) from rdb$fields aS
+t1,rdb$types/*w*/AS t2,rdb$collations as/**/t3,rdb$functions aS
+t4 && """"fkdx""""/**/lIke """"fkdx",2024-08-27T10:36:58.223322,403,200,waf_correct_ml_incorrect,"(SELect /**/aNd 0x24e7
+NOT LIKE  anD 0x1/**/like '(' liKe '(')"""";selEcT count(*) FROm rdb$fields as
+t1,rdb$types/*W*/aS t2,rdb$collations as/**/t3,rdb$functions as
+t4 && """"fkdx""""/**/liKe """"fkdx",2024-08-27T10:37:07.324088,403,200,waf_correct_ml_incorrect,"(sELEcT /**/AND 0x24e7
+NOT
+LIKE  And 0x1/**/LIkE '(' lIKE '(')"""";SELect count(*) FrOM rdb$fields aS
+t1,rdb$types/*W*/AS t2,rdb$collations As/*B*/t3,rdb$functions aS
+t4  AnD  """"fkdx""""/**/lIKE/**/""""fkdx",2024-08-27T10:37:17.670598,403,200,waf_correct_ml_incorrect,"(sELEct  aND 0x24e7
+NOT
+LIKE  AnD	0x1/**/likE '(' lIke '(')"""";sELEct count(*) FROM rdb$fields AS
+t1,rdb$types/*W*/aS t2,rdb$collations aS/*B*/t3,rdb$functions AS
+t4  AnD  """"fkdx""""/*0x25f!= AND 1/J
+*/LIke/**/""""fkdx",2024-08-27T10:37:27.741666,403,200,waf_correct_ml_incorrect,"(SeleCT  And 0x24e7
+NOT
+LIKE  And
+0x1/**/LiKe '(' lIKE '(')"""";SeLECT count(*) FrOM rdb$fields As
+t1,rdb$types/*W*/As t2,rdb$collations aS t3,rdb$functions AS
+t4  aNd  """"fkdx""""/*0x25f!= AND 1261 IN ( AND 1,1261,(SELECT 1262))/J
+*/LIkE/*M!*/""""fkdx",2024-08-27T10:37:37.366417,403,403,both_correct,"(SelECT  anD/**/0x24e7
+NOT
+LIKE  ANd
+0x1/**/liKE '(' liKe '(')"""";SeLECt count(*) fROM rdb$fields
+aS
+t1,rdb$types/*W*/as t2,rdb$collations as t3,rdb$functions as
+t4  aNd  """"fkdx""""/*0x25f!= AND '.8wk'!='.8wkT' IN ( AND 1,0x4ed,(SELECT (SELECT 1)))/J
+*/Like/**/""""fkdx",2024-08-27T10:37:48.678352,403,403,both_correct,"(seLecT  And 0x24e7
+NOT
+LIKE  and
+0x1/**/lIke '(' LIke '(')"""";Select count(*) From rdb$fields
+as
+t1,rdb$types/**/As t2,rdb$collations As t3,rdb$functions AS
+t4  AnD  """"fkdx""""/*0x25f!= AND '.8wk'!='.8wkT' IN ( AND '(^b' NOT LIKE '(^bj',0x4ed,(SELECT (SELECT	(SELECT (SELECT 1)))))/J
+*/like/**/""""fkdx",2024-08-27T10:38:00.820615,403,403,both_correct
+5,2024-08-27T10:38:14.843113,"c/ la hoz, 17",200,200,200,both_correct,"c/ la hoz,/**/(SELECT 0x1)",2024-08-27T10:38:15.480880,200,403,waf_correct_ml_incorrect,"c/	la hoz, (SElECt 0x1)",2024-08-27T10:38:17.649445,200,200,both_correct,"c//**/la hoz, (SeLeCT 0x1)",2024-08-27T10:38:19.717834,200,200,both_correct,"c//**/la
+hoz, (SELEcT/**/0x1)",2024-08-27T10:38:21.907041,200,403,waf_correct_ml_incorrect,"c/ la	hoz, (SelECt/**/0x1)",2024-08-27T10:38:24.301320,200,200,both_correct,"c//**/la	hoz,
+(SeleCT/**/0x1)",2024-08-27T10:38:26.483889,403,200,waf_incorrect_ml_correct,"c//**/la
+hoz,
+(SeLeCT 0x1)",2024-08-27T10:38:28.769811,403,200,waf_incorrect_ml_correct,"c//**/la	hoz,
+(selECt/**/0x1)",2024-08-27T10:38:30.956711,403,200,waf_incorrect_ml_correct,"c//**/la	hoz, (seleCt 0x1)",2024-08-27T10:38:33.246776,200,200,both_correct,"c/ la	hoz,
+(SeLECt 0x1)",2024-08-27T10:38:35.397306,403,200,waf_incorrect_ml_correct
+6,2024-08-27T10:38:37.455689,1');begin dbms_lock.sleep(5); end and ('jzlr'='jzlr,403,403,403,both_correct," aND 1 not
+like 1176');begin dbms_lock.sleep(0x5); end and/**/('jzlr'='jzlr",2024-08-27T10:38:39.634572,403,200,waf_correct_ml_incorrect," AnD
+'$c'!='$c3' not
+like (selecT (SelECT 1))');begin dbms_lock.sleep(0x5); end/**/and/**/('jzlr'='jzlr",2024-08-27T10:38:44.088713,403,200,waf_correct_ml_incorrect," ANd	'$c'<>'$c3' not
+like (seLECT (SelECT  Or 0x0))');begin dbms_lock.sleep(0x5); end and/**/('jzlr'='jzlr",2024-08-27T10:38:49.364989,403,200,waf_correct_ml_incorrect," aNd	'$c' not like '$c3' not
+like (sElect (SeLect /**/oR 0x0))');begin dbms_lock.sleep(0x5);
+end and/**/('jzlr'='jzlr",2024-08-27T10:38:54.743502,403,200,waf_correct_ml_incorrect," AnD	'$c' not like '$c3' not	like (SELEcT (sElEct  OR 0x0))');begin dbms_lock.sleep(0x5);
+end and/*}*/('jzlr'='jzlr",2024-08-27T10:39:00.541145,403,200,waf_correct_ml_incorrect," anD
+'$c' not like '$c3' not	like (seLecT/**/(SEleCT  Or 0x0))');begin dbms_lock.sleep(0x5);
+end and/**/('jzlr'='jzlr",2024-08-27T10:39:06.327131,403,200,waf_correct_ml_incorrect," aND
+'$c' not like/**/'$c3'
+not	like (SELeCt/**/(SeLeCT  oR 0x0))');begin dbms_lock.sleep(0x5);
+end and/**/('jzlr'='jzlr",2024-08-27T10:39:12.779300,403,200,waf_correct_ml_incorrect," and
+'$c' not
+like/**/'$c3'
+not	like (sELEcT (SelECt  Or 0x0))');begin dbms_lock.sleep(0x5);
+end and/**/('jzlr'='jzlr",2024-08-27T10:39:18.647395,403,200,waf_correct_ml_incorrect," aNd
+'$c' not
+like/**/'$c3'
+not like (selECT (sEleCT /**/or 0x0))');begin dbms_lock.sleep(0x5);
+end and/**/('jzlr'='jzlr",2024-08-27T10:39:24.383069,403,200,waf_correct_ml_incorrect," aNd
+'$c' not
+like/*B~f:)*/'$c3'
+not like/**/(sELECt (sElEcT /**/Or 0x0))');begin dbms_lock.sleep(0x5);	end and/**/('jzlr'='jzlr",2024-08-27T10:39:30.497799,403,200,waf_correct_ml_incorrect
+7,2024-08-27T10:39:37.123295,"1"""" order by 1#",403,200,403,waf_incorrect_ml_correct,"'P'/**/like 'P'"""" order by	(SELECT  AND 1)#H",2024-08-27T10:39:37.853139,403,403,both_correct,"'P'/*J;-*/LIKe
+'P'"""" order by	(SELEct  And (SeLEcT/**/ anD '%' LIKE '%'))#H",2024-08-27T10:39:40.756466,403,403,both_correct,"'P'/**/LIke	'P'"""" order by	(seLECt  And (sELeCt  ANd '%' LiKe '%'))#H%",2024-08-27T10:39:44.880659,403,403,both_correct,"'P' LIKe
+'P'"""" order by	(SEleCT  ANd (SelECT  && '%' lIKE '%'))#H%",2024-08-27T10:39:48.832868,403,403,both_correct,"'""l'='""l'"""" order by	(SeLEct  ANd (SeLECt
+/**/ AND  '%' LIkE '%'))#H%d%",2024-08-27T10:39:52.599404,403,403,both_correct,"'""l' LIKE '""l'"""" order by	(sElecT 	anD (SeleCt
+/**/ AnD  '%' LiKe/**/'%'))#H%d%}c",2024-08-27T10:39:56.563269,403,200,waf_correct_ml_incorrect,"'""l' LIke '""l'"""" order by	(SeLeCt 	aNd (seLECt   anD  '%' like/**/'%'))#H%d%}cE",2024-08-27T10:40:01.336401,403,200,waf_correct_ml_incorrect,"'""l' LiKe '""l'"""" order by	(seLECt 
+anD/**/(SelECt   and  '%' lIKe/**/'%'))#H%d%}cEk",2024-08-27T10:40:05.539380,403,200,waf_correct_ml_incorrect,"'""l' lIKe '""l'"""" order by/**/(SElECT 
+And/**/(SElECT   ANd  '%' LIkE/*mj> OR 0x0*/'%'))#H%d%}cEk",2024-08-27T10:40:10.551960,403,200,waf_correct_ml_incorrect,"'""l' LikE '""l'"""" order	by/*{Q?""n*/(sELeCT 
+AnD/**/(SELEcT /**/ anD  '%' likE/*mj> OR 0x0*/'%'))#H%d%}cEk",2024-08-27T10:40:15.995618,403,200,waf_correct_ml_incorrect
+8,2024-08-27T10:40:21.796746,-3520%' or 8571=8571--,403,403,403,both_correct,"-(SELECT  AND 1)%'
+Or 8571 LIKE 9037 LIKE/**/9037--",2024-08-27T10:40:22.798775,403,403,both_correct,-(SElEcT  And 'k>' NOT LIKE 'k>.')%' or 8571/**/LIKe 9037 likE/**/(SelEcT (SELECT 1))--,2024-08-27T10:40:26.765266,403,403,both_correct,"-(SeLEcT  AnD 'k>' NOT
+LIKE 'k>.')%' Or 2138 Like (SeleCt 2138)/**/LIKe 9037 LIKE (sELecT (SElecT  aND 1))--",2024-08-27T10:40:31.731374,403,200,waf_correct_ml_incorrect,"-(SELect  aNd 'k>' NOT
+LIKE 'k>.')%' Or 2138 LiKe/**/(SElect
+(SELECT 2138))/*q&""*/LIkE 9037 LIke (SElect (SElect  &&  anD 9155=9155))--",2024-08-27T10:40:37.848498,403,403,both_correct,"-(sELecT  aNd 'k>' NOT
+LIKE 'k>.')%' Or 2138 LiKe/**/(SElect	(SELECT 0x85a))/**/LIkE/**/9037 LIke (SElect (SElect  &&  anD  OR 0='	2g' NOT LIKE '	2gp'))--",2024-08-27T10:40:45.205386,403,403,both_correct,"-(sElEcT  AnD 'k>' NOT
+LIKE 'k>.')%' Or 'EV'='EV' LiKe/*l[*/(SElect (SELECT 0x85a)) LIkE/**/ OR (SELECT 0) LIke (SElect (SElect  &&  anD  OR 0='	2g' NOT LIKE '	2gp'))--",2024-08-27T10:40:54.015407,403,403,both_correct,"-(SElecT  AnD 'k>' NOT
+LIKE 'k>.')%' Or 'EV'='EV' LiKe/*jL!Qr*/(SElect (SELECT 0x85a)) LIkE/**/ OR (SELECT (SELECT 'IV!-'='IV!-')) LIke (SElect (SElect  &&/**/ anD  OR 0x0='	2g' NOT LIKE ' 2gp'))--",2024-08-27T10:41:02.870879,403,403,both_correct,"-(SeleCt  AND 'k>' NOT
+LIKE 'k>.')%' Or  AND 0x1c07 NOT LIKE 7176 LiKe/*jL!Qr*/(SElect (SELECT 0x85a)) LIkE/**/ OR/**/(SELECT (SELECT 'IV!-'='IV!-')) LIke (SElect (SElect  &&/**/ anD  OR 0x0='
+2g' NOT LIKE ' 2gp'))--",2024-08-27T10:41:15.101694,403,403,both_correct,"-(SEleCt 	&& 'k>' NOT
+LIKE 'k>.')%' Or  AND 0x1c07 NOT LIKE 0x13d0 NOT LIKE (SELECT 1) LiKe/*jL!Qr*/(SElect (SELECT 0x85a)) LIkE/**/ OR/**/(SELECT (SELECT 'IV!-'='IV!-')) LIke (SElect/**/(SElect  &&/**/ anD  OR 0x0='
+2g' NOT LIKE ' 2gp'))--",2024-08-27T10:41:27.159708,403,403,both_correct,"-(SeleCT 	 And  'k>' NOT
+LIKE 'k>.')%' Or  AND 0x1c07 NOT LIKE 0x13d0 NOT LIKE (SELECT (SELECT (SELECT 'n;'='n;'))) LiKe/**/(SElect (SELECT 0x85a)) LIkE/**/ OR/**/(SELECT (SELECT 'IV!-'='IV!-')) LIke (SElect/**/(SElect  &&  anD  OR 0x0='	2g' NOT LIKE ' 2gp'))--",2024-08-27T10:41:38.047853,403,403,both_correct
+9,2024-08-27T10:41:50.118889,"nucleo santiago apostol 34, 4?f",200,200,200,both_correct,"nucleo santiago apostol 34,	/**/and 0x2176!=8567?f",2024-08-27T10:41:51.623306,200,200,both_correct,"nucleo santiago apostol 34, /**/ANd 0x2176 NOT LIKE ' OR/*sNG*/0'<>'0x38'?f",2024-08-27T10:41:55.026610,200,200,both_correct,"nucleo santiago apostol/**/9140!=(SELECT 1), /**/And 0x2176	not like ' OR/**/0x0'<>'0x38'?f",2024-08-27T10:41:59.427587,200,200,both_correct,"nucleo santiago apostol/**/ AND 1 NOT LIKE (sELeCt '9'='(SELECT 9)'),/**//**/ANd 0x2176
+not like ' OR/**/0x0'<>'0x38'?f",2024-08-27T10:42:04.518334,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol  AnD 1
+NOT LIKE (seleCT '0x9'='(SELECT  OR '}?o'<>'}?o#')'),/**//**/anD 0x2176
+not like ' OR/**/0x0' NOT LIKE '0x38'?fF",2024-08-27T10:42:11.300954,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol  anD  And (sELeCt 877 IN (876,877,878))
+NOT LIKE (selEct '0x9'='(SELECT  OR '}?o'<>'}?o#')'),/**//*b!n*/AND 0x2176 not like ' OR 0x0' not like '0x38'?fF",2024-08-27T10:42:19.591828,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol  anD  aND (sELEct 877 in ( and 1,877,(sELeCt 4249) NOT LIKE 4250)) NOT LIKE/**/(SeLECT '0x9' likE '(SELECT  OR '}?o'<>'}?o#')'),/**//*Bh*/and 0x2176 not like ' OR 0x0' not like '0x38'?fF",2024-08-27T10:42:28.177910,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol  and  ANd (seLECt 877 in ( anD (SELECT 1), Or 0,(SelECT 4249) NOT LIKE '3' not like '3g')) NOT LIKE/**/(seLeCt '0x9' LiKe '(SELECT  OR '}?o'<>'}?o#')'),/**//**/aND 0x2176 not like/**/' OR 0x0' not	like '0x38'?fF2",2024-08-27T10:42:38.374593,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol  AnD  ANd (SelEct 877 in ( AnD (seLecT 1), OR 0x0,(SELECT (SELECT 1)) not like ''|uo'='|uo'' not like '3g')) NOT LIKE/**/(sELeCt '0x9' liKe '(SELECT  OR '}?o'<>'}?o#')'),/**/ and 0x2176 not like/**/' OR 0x0' not
+like '0x38'?fF2",2024-08-27T10:42:49.479578,403,403,both_incorrect,"nucleo santiago apostol  And  AND (SelEcT 'j14}'!='j14}W' iN/**/( aND (sELEcT (seleCT 0x1)), || 0x0,(SELeCt (sELeCT 1)) not like ''|uo'='|uo'' not like '3g')) NOT LIKE/**/(sElect '0x9' lIKe '(SELECT  OR '}?o'<>'}?o#')'),/**/ ANd 0x2176 not like/**/' OR 0x0' not like '0x38'?fF2y",2024-08-27T10:43:01.415150,200,200,both_correct
+10,2024-08-27T10:43:14.673854,"1%""""))) union all select null,null--",403,403,403,both_correct,"(SELECT (SELECT '7ywVH' like '7ywVH'))%"""")))	union/**/all SelECt null,null--",2024-08-27T10:43:16.353505,403,403,both_correct,"(SeLECT (SElEcT '7ywVH' LIkE/**/'7ywVH'))%"""")))
+union/**/all SeLeCt null,null--",2024-08-27T10:43:20.979131,403,403,both_correct,"(SelEcT (SelECt '7ywVH' like/**/'7ywVH'))%""""))) union all SELect null,null--",2024-08-27T10:43:25.669382,403,403,both_correct,"(SeleCT (SELEct '7ywVH' lIke '7ywVH'))%"""")))	union all SelEcT null,null--",2024-08-27T10:43:29.986457,403,403,both_correct,"(SELeCt (sElECt '7ywVH'/**/LikE '7ywVH'))%"""")))	union all sEleCT
+null,null--",2024-08-27T10:43:34.292031,403,403,both_correct,"(SEleCt (sElECt '7ywVH' lIKE '7ywVH'))%"""")))	union all SEleCT	null,null--",2024-08-27T10:43:38.708690,403,403,both_correct,"(select/*o*/(sEleCT '7ywVH' lIke '7ywVH'))%"""")))	union all seLecT null,null--",2024-08-27T10:43:42.965788,403,403,both_correct,"(SELEct (sElECT
+'7ywVH' LIKe '7ywVH'))%"""")))	union all SeLeCt null,null--",2024-08-27T10:43:47.638532,403,403,both_correct,"(SElEct (sELecT
+'7ywVH' LikE '7ywVH'))%"""")))
+union/*TPB2>*/all seLEct null,null--",2024-08-27T10:43:52.022563,403,403,both_correct,"(SELEct (SeLECT
+'7ywVH' liKe '7ywVH'))%""""))) union/*n<=#*/all/**/sElect null,null--",2024-08-27T10:43:56.512368,403,403,both_correct
+
+Overall Results
+WAF TP,74
+WAF TN,28
+WAF FP,5
+WAF FN,3
+ML TP,52
+ML TN,25
+ML FP,8
+ML FN,25
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,70,7
+ML Incorrect,32,1

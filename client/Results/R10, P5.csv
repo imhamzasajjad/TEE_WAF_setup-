@@ -1,0 +1,86 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1,Fuzzed Payload 2,Fuzzed Timestamp 2,WAF Status 2,ML Status 2,Combined Result 2,Fuzzed Payload 3,Fuzzed Timestamp 3,WAF Status 3,ML Status 3,Combined Result 3,Fuzzed Payload 4,Fuzzed Timestamp 4,WAF Status 4,ML Status 4,Combined Result 4,Fuzzed Payload 5,Fuzzed Timestamp 5,WAF Status 5,ML Status 5,Combined Result 5,Fuzzed Payload 6,Fuzzed Timestamp 6,WAF Status 6,ML Status 6,Combined Result 6,Fuzzed Payload 7,Fuzzed Timestamp 7,WAF Status 7,ML Status 7,Combined Result 7,Fuzzed Payload 8,Fuzzed Timestamp 8,WAF Status 8,ML Status 8,Combined Result 8,Fuzzed Payload 9,Fuzzed Timestamp 9,WAF Status 9,ML Status 9,Combined Result 9,Fuzzed Payload 10,Fuzzed Timestamp 10,WAF Status 10,ML Status 10,Combined Result 10
+1,2024-08-27T10:13:48.392424,"calle capitan godoy beltran, 120",200,200,200,both_correct,"calle/**/capitan godoy beltran, (sELeCt  ||	0 iN (5776,5777,5778))",2024-08-27T10:13:50.476794,200,200,both_correct,"calle/*;6azV*/capitan godoy beltran, (SELEcT  || (seLEcT 0)/**/in ( oR 0,5777,'s'<>'ss'))",2024-08-27T10:13:54.405810,403,200,waf_incorrect_ml_correct,"calle/**/capitan
+godoy/**/beltran, (SElECt  || (SelEct (SeleCt 0))/**/IN ( Or  || '='<>'=#',5777,'s'<>'ss'))",2024-08-27T10:13:59.100053,403,200,waf_incorrect_ml_correct,"calle/**/capitan
+godoy/**/beltran, (sELECt  || (SElEcT (sELect  oR/**/(SELECT 0)))/*.&T*/in	( or  || '=' not like '=#','+,T'='+,T','s'<>'ss'))",2024-08-27T10:14:04.511937,403,200,waf_incorrect_ml_correct,"calle capitan
+godoy/**/beltran, (SELect  || (SelECt (selECT  oR/**/(SELeCT  oR 'OF' NOT LIKE 'OF[')))/*.&T*/IN ( oR  || '=' not like '=#','+,T'='+,T','s'!='ss'))+-",2024-08-27T10:14:11.686329,403,200,waf_incorrect_ml_correct,"calle capitan
+godoy beltran, (seLECT   Or  (SelEcT (selECT  oR/**/(SeLEct
+ OR 'OF' NOT LIKE 'OF[')))/*D;*/in ( OR  || '=' not like '=#','+,T'='+,T','s'!='ss'))+-",2024-08-27T10:14:19.350262,200,200,both_correct,"calle capitan	godoy beltran, (Select /**/ or  (sEleCT (SeleCt  oR/**/(SeLEct
+ or 'OF' not like 'OF[')))/**/IN ( or  || '=' not like '=#','+,T'='+,T','s'!='ss'))+-N",2024-08-27T10:14:27.633990,200,200,both_correct,"calle capitan	godoy beltran, (SelEcT /**/ OR  (sElEct	(SELECt  OR/**/(SeLecT
+ Or 'OF' not like 'OF[')))/**/IN ( oR  || '='/**/not like '=#','+,T'='+,T','s' NOT LIKE 'ss'))+-NT",2024-08-27T10:14:36.802539,200,200,both_correct,"calle capitan	godoy beltran, (SElEcT /**/ OR  (SeleCT (SeLECt  OR/**/(seLeCt
+ OR 'OF' not like 'OF['))) In ( oR  || '='/**/not like '=#','+,T'='+,T','s' NOT LIKE 'ss'))+-NTY",2024-08-27T10:14:45.906216,200,200,both_correct,"calle capitan godoy beltran, (SelECt/**//**/ OR  (sElecT (sELECT  oR/**/(seleCt
+ Or 'OF' not like 'OF['))) iN ( oR  || '='/**/not like '=#','+,T'='+,T','s' not like 'ss'))+-NTYB",2024-08-27T10:14:54.907792,200,200,both_correct
+2,2024-08-27T10:15:04.371166,"1"""" order by 1#",403,200,403,waf_incorrect_ml_correct,"'N'	LiKE 'N'"""" order by/**/ or (SELECT 0)#",2024-08-27T10:15:05.259739,200,403,waf_incorrect_ml_correct,"'N'
+LIkE/*E*/'N'"""" order by/**/ or (SElEct 0x0)#",2024-08-27T10:15:08.300258,200,200,both_incorrect,"'N'	lIke/*E*/'N'"""" order by  OR (SeleCt 0x0)#~G",2024-08-27T10:15:11.644685,200,200,both_incorrect,"'N'	likE/*%F z|*/'N'"""" order/**/by
+ or (SeLECt 0x0)#~G",2024-08-27T10:15:14.784669,200,200,both_incorrect,"'N'	lIKe/*%F z|*/'N'"""" orDeR BY	 oR (SeLEct 0x0)#~GZ",2024-08-27T10:15:18.204998,200,200,both_incorrect,"'N'	lIkE/*%F z|*/'N'""""
+orDeR BY	 or/*O]Q*/(seLEcT 0x0)#~GZ",2024-08-27T10:15:21.499157,200,200,both_incorrect,"'N'	LIkE/*%F z|*/'N'"""" orDeR BY	 OR (SeLECT 0x0)#~GZaq",2024-08-27T10:15:24.988240,200,200,both_incorrect,"'N'	lIke/*%F z|*/'N'"""" orDeR BY/**/ oR (SELEct 0x0)#~GZaq",2024-08-27T10:15:28.441002,200,200,both_incorrect,"'N'
+Like/*%F z|*/'N'""""/*=iG*/orDeR BY/**/ or (sElECT 0x0)#~GZaq",2024-08-27T10:15:32.365616,200,200,both_incorrect,"'N'
+LIKe/*%F z|*/'N'""""/*vC*/orDeR	BY  OR (sElecT 0x0)#~GZaq",2024-08-27T10:15:36.253223,200,200,both_incorrect
+3,2024-08-27T10:15:39.902930,"1'||(select 'votg' where 5105=5105 or 8156=(select count(*) from generate_series(1,5000000))--",403,403,403,both_correct,"1'||(select 'votg' where 5105=(SELECT 1) or/**/0x1fdc=(select count(*) from generate_series('	' LIKE '
+',5000000))--",2024-08-27T10:15:44.039398,403,403,both_correct,"5944 LiKe 0x1738'||(select
+'votg' where 5105=(SELECT 1) or 0x1fdc=(select count(*) from generate_series('	' LIKE '
+',(SeLect 1)))--",2024-08-27T10:15:51.387261,403,403,both_correct,"5944/**/LIKe 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND 1) or 0x1fdc=(select count(*) from generate_series('	' LIKE '
+',(SeleCt (SELECT 1))))--",2024-08-27T10:15:59.041628,403,403,both_correct," || 'w<?' NOT LIKE 'w<?O'/**/LIkE 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND 1) or/**/0x1fdc=(select	count(*) from generate_series('	' LIKE '
+',(SELEct (sELecT (SELECT 1)))))--",2024-08-27T10:16:07.162009,403,403,both_correct," || 'w<?' not like 'w<?O'/**/lIKe 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND	(SELECT 'dC4H'<>'dC4H`')) or/*tF*/0x1fdc=(select	count(*) from generate_series('	'/**/LIKE '
+',(selecT (sELeCt (SeLEct 0x1)))))--",2024-08-27T10:16:15.834556,403,403,both_correct,"  or  'w<?'/**/not like 'w<?O'/**/likE 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND	(SELECT 'dC4H'<>'dC4H`')) or/**/0x1fdc=(select	count(*) from generate_series(' '/*ZS*/LIKE '
+',(SELEct (SElECT (seleCT 0x1)))))--",2024-08-27T10:16:26.091892,403,403,both_correct,"  or  'w<?'/**/not like 'w<?O' LIke 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND	(SELECT 'dC4H'<>'dC4H`')) or/**/0x1fdc=(select	count(*) from generate_series(' '/**/LIKE ' ',(seLECt (sEleCT (seLecT 0x1)))))--",2024-08-27T10:16:36.228941,403,403,both_correct,"  or  'w<?'/**/not like/**/'w<?O' LiKE 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND	(SELECT 'dC4H'<>'dC4H`')) or/**/0x1fdc=(select count(*) from generate_series(' '/**/LIKE ' ',(selecT (sELECT (SELEct 0x1)))))--",2024-08-27T10:16:46.776587,403,403,both_correct,"  Or  'w<?'/**/not like 'w<?O' lIKe 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT	 AND
+(SELECT 'dC4H'<>'dC4H`')) or/**/0x1fdc=(select count(*) from generate_series(' '/**/LIKE ' ',(seLECt (sElECt (seLect 0x1)))))--",2024-08-27T10:16:56.889255,403,403,both_correct,"  OR  'w<?'/**/not like 'w<?O' lIkE 0x1738'||(select
+'votg' where 'd$'<>'d$u'=(SELECT  AND
+(SELECT 'dC4H'<>'dC4H`')) or/**/0x1fdc=(select count(*) from generate_series(' ' LIKE ' ',(seleCT (SeLEcT (SelecT 0x1)))))--",2024-08-27T10:17:07.125546,403,403,both_correct
+4,2024-08-27T10:17:17.709860,"nucleo santiago apostol 34, 4?f",200,200,200,both_correct,"nucleo santiago apostol  or
+0x0,/**/'_='!='_=;'?f",2024-08-27T10:17:19.080601,200,200,both_correct,"nucleo santiago apostol/**/ OR	0x0,/**/'_=' not like '_=;'?f",2024-08-27T10:17:22.480281,200,200,both_correct,"nucleo/**/santiago apostol/**/ or	0x0,/*i:XS*/'_=' not	like '_=;'?f",2024-08-27T10:17:26.152508,200,200,both_correct,"nucleo santiago apostol/**/ or	0x0,/*i:XS*/'_=' not
+like '_=;'?f",2024-08-27T10:17:30.218815,200,200,both_correct,"nucleo
+santiago apostol/**//**/or	0x0,/**/'_=' not
+like '_=;'?f",2024-08-27T10:17:35.515758,200,200,both_correct,"nucleo
+santiago/**/apostol/*)3869!=(SELECT 1)*//**/or
+0x0,/**/'_=' not
+like '_=;'?f",2024-08-27T10:17:39.833602,200,200,both_correct,"nucleo
+santiago/*&f(Dq*/apostol/*)6965 IN (6964,6965,(SELECT 6966))!=(SELECT /**/|| 0)*//**/Or
+0x0,/**/'_=' not
+like
+'_=;'?f",2024-08-27T10:17:44.587120,403,403,both_incorrect,"nucleo
+santiago/*&f(Dq*/apostol/*)6965 IN (/**/AND (SELECT 1),6965,(SELECT 3098<>3099))!=(SELECT /**/|| 0)*//**/or	0x0,/**/'_=' not
+like
+'_=;'?f",2024-08-27T10:17:51.301340,403,403,both_incorrect,"nucleo
+santiago/*&f(Dq*/apostol/*)0x1b35 IN
+(/**/and/**/(SeleCt 1201=1201),6965,(seLECT 3098<>3099))!=(sELecT /**/||  Or 0)*//**/or	0x0,/**/'_=' not
+like
+'_=;'?f",2024-08-27T10:17:59.135924,403,200,waf_incorrect_ml_correct,"nucleo	santiago/*&f(Dq*/apostol/*)0x1b35 IN
+(/**/aNd/**/(selEct 0x4b1 Like 1201),(SElECt 3847!=3848),(SeLect 3098<>3099))!=(SeLeCT  ||  OR 0)*//**/Or	0x0,/**/'_=' not
+like
+'_=;'?f",2024-08-27T10:18:08.235088,403,200,waf_incorrect_ml_correct
+5,2024-08-27T10:18:17.401297,"1"""")) as femc where 1313=1313 and 4595=4595#",403,200,403,waf_incorrect_ml_correct,"(sELECt 1)"""")) as femc WhERE/**/2380= AND
+1=1313 And 4595 LIKE 4595#",2024-08-27T10:18:19.287706,403,403,both_correct,"(SeLect  ANd 1)"""")) as femc WherE/*. [pE*/(SELECT 2380)= &&
+'av'!='av8'=1313 AnD 4595 lIKE/**/4595#",2024-08-27T10:18:23.799427,403,200,waf_correct_ml_incorrect,"(SeLECt  anD (SelECt  AND	1))"""")) AS femc WHErE/*./**/[pE*/(sELect 2380)= &&
+'av'!='av8' LIke 1313 AND 4595 LikE/**/4595#3130 IN (3129,3130,3131)",2024-08-27T10:18:29.378669,403,403,both_correct,"(SeLeCt  aNd (SElEcT  aNd	1))""""))/**/aS femc wHErE/*./*:*/[pE*/(SElECT 2380) liKe  && 'av'!='av8' Like '49' NOT LIKE '49/' ANd 4595 lIKE/**/ oR 0#3130 IN (3129,3130,0xc3b)",2024-08-27T10:18:37.356700,403,403,both_correct,"(SelEcT  anD (seLeCT  aNd	 OR 0))""""))/**/As femc whErE/*./*:*/[pE*/(SElECt '<fAM'='<fAM') lIkE /**/&& 'av'!='av8' LIKe '49' not like '49/' aND 4595
+LikE/**/ or 0#3130 IN (0xc39,3130,0xc3b)[",2024-08-27T10:18:46.073933,403,200,waf_correct_ml_incorrect,"(SelEcT  and (SeLEcT  aNd	 OR 0))""""))/**/As femc WHERE/*./*:*/[pE*/(SEleCT '<fAM'='<fAM')
+lIKE /**/ and  'av'!='av8' liKE '49' not like ' AND 1=5760/'/**/anD (SELECT 4595)
+LiKE/**/ oR 0#3130 IN (0xc39,3130,0xc3b)[=(",2024-08-27T10:18:56.160440,403,403,both_correct,"(sElEcT  ANd (select  aNd	 oR 0))"""")) AS femc WherE/*./*:*/[pE*/(seleCT '<fAM'='<fAM')
+LIKe /*CK?*/ and  'av' not like 'av8' likE '49' not like ' AND  OR 0=5760/'/**/aND (sEleCt 4595)
+LiKE/**/	oR 3144 IN (3143,3144,3145)#3130 in (0xc39,(SELECT 3130),0xc3b)[=(",2024-08-27T10:19:07.134610,403,403,both_correct,"(SELeCt  anD (SelEct  anD	 OR '>H'<>'>Hx'))"""")) As femc WHErE/*./*:*/[pE*/(selECt '<fAM'='<fAM')
+liKE /*CK?*/ and  'av' not like 'av8' like	'49' not like ' AND  OR 0= AND 1/' And (SEleCt 4595)
+lIKE/**/	oR 3144 IN (0xc47,3144,3145)#3130 in (0xc39,(sElEct 3130),0xc3b)[ lIKe (q]",2024-08-27T10:19:20.510987,403,403,both_correct,"(selEct  And (SELEcT  ANd	 Or '>H'!='>Hx'))"""")) As femc wHEre/*./*:*/[pE*/(sElect '<fAM'='<fAM')
+LIkE /**/ and  'av' not like 'av8' LiKe	'49' not like ' AND  OR 9047 LIKE (SELECT 9047)= AND 1/' and (SeLeCt 4595)	lIKe/**/	oR/**/3144 In (0xc47,3144,3145)# OR 0 in (0xc39,(sElEct 3130),0xc3b)[ lIKe (q]L",2024-08-27T10:19:33.083838,403,403,both_correct,"(seLeCt  aND (selECT  and	 Or '>H'!='>Hx'))"""")) AS femc WHere/*./**/[pE*/(seLEct '<fAM' LIKE '<fAM')
+lIkE /**/ ANd  'av' not like 'av8' likE	'3438 NOT LIKE 3439' not like ' AND  OR/**/9047 LIKE (SELECT 9047)= AND 1/' AnD (sELEcT 4595)	likE/**/
+oR/**/3144 In (0xc47,(SElect 1),3145)# OR 0x0 in (0xc39,(sElEct 3130),0xc3b)[ lIKe (q]L3",2024-08-27T10:19:46.749990,403,403,both_correct
+
+Overall Results
+WAF TP,21
+WAF TN,14
+WAF FP,8
+WAF FN,12
+ML TP,22
+ML TN,20
+ML FP,2
+ML FN,11
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,33,9
+ML Incorrect,2,11

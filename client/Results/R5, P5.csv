@@ -1,0 +1,35 @@
+Sr NO.,Original Timestamp,Payload,Original Status,WAF Status,ML Status,Combined Result,Fuzzed Payload 1,Fuzzed Timestamp 1,WAF Status 1,ML Status 1,Combined Result 1,Fuzzed Payload 2,Fuzzed Timestamp 2,WAF Status 2,ML Status 2,Combined Result 2,Fuzzed Payload 3,Fuzzed Timestamp 3,WAF Status 3,ML Status 3,Combined Result 3,Fuzzed Payload 4,Fuzzed Timestamp 4,WAF Status 4,ML Status 4,Combined Result 4,Fuzzed Payload 5,Fuzzed Timestamp 5,WAF Status 5,ML Status 5,Combined Result 5
+1,2024-08-27T09:58:18.899104,"1"""" order by 1#",403,200,403,waf_incorrect_ml_correct,"0x1""""	order by (seleCT/**/'{ G' not like '{ G*')#G",2024-08-27T09:58:20.113204,403,403,both_correct,"0x1"""" order by (SElEcT/**/'{ G' not like '{/*_B6?*/G*')#G",2024-08-27T09:58:23.249213,403,403,both_correct,"0x1""""
+order by (seleCT/*5U*/'{ G' not/**/liKE '{/**/G*')#G",2024-08-27T09:58:26.589272,403,200,waf_correct_ml_incorrect,"0x1""""	order by (SElEct/*(SELECT 3)*/'{ G' not/**/lIKE '{ G*')#G",2024-08-27T09:58:30.067476,403,403,both_correct,"0x1"""" order by (SElEct/*(SELECT (SELECT 6230)= AND 1)*/'{ G'/**/not/**/lIkE '{ G*')#GW",2024-08-27T09:58:33.703352,403,403,both_correct
+2,2024-08-27T09:58:38.279701,"1%') or 8315=(select count(*) from sysibm.systables as t1,sysibm.systables as t2,sysibm.systables as t3) and ('%'='",403,403,403,both_correct,"(SElEct 1496 in (1495,1496,1497))%') or 0x207b=(select count(*) from sysibm.systables as t1,sysibm.systables as
+t2,sysibm.systables/*5gX*/as t3) and ('%'='",2024-08-27T09:58:43.379701,403,403,both_correct,"(SeLEct  AND 1!=22 In (1495,1496,0x5d9))%') or 0x207b=(select count(*) from sysibm.systables as/**/t1,sysibm.systables as	t2,sysibm.systables/**/as t3) and ('%'='",2024-08-27T09:58:50.714405,403,403,both_correct,"(seLect  and
+'rfk'!='rfkq'!=22 In (1495, or 0x0,0x5d9))%') or 0x207b=(select count(*) from sysibm.systables as/*7G*/t1,sysibm.systables as	t2,sysibm.systables as t3) and ('%'='",2024-08-27T09:58:58.321908,403,403,both_correct,"(selECT  And 'rfk' NOT LIKE 'rfkq'!=22 iN ((SELECT  OR 0=8106), Or 0x0,0x5d9))%') or 0x207b=(select count(*) from sysibm.systables as/**/t1,sysibm.systables as	t2,sysibm.systables as t3) and/**/('%'='",2024-08-27T09:59:06.693204,403,403,both_correct,"(SEleCt  ANd 'rfk' not like 'rfkq'!= oR 0 In ((SelecT  Or 'Z|G' NOT LIKE 'Z|G&'=(SELECT 8106)), or 0x0,0x5d9))%') or 0x207b=(select count(*) from sysibm.systables as/**/t1,sysibm.systables/*%c*/as
+t2,sysibm.systables as t3) and/**/('%'='",2024-08-27T09:59:15.865414,403,403,both_correct
+3,2024-08-27T09:59:26.429595,"1"""";select count(*) from rdb$fields as t1,rdb$types as t2,rdb$collations as t3,rdb$functions as t4 and """"fkdx"""" like """"fkdx",403,403,200,waf_correct_ml_incorrect,"(sEleCT (SeleCT '~'='~'))"""";sElecT count(*) From rdb$fields As t1,rdb$types AS t2,rdb$collations/**/as t3,rdb$functions As t4	and """"fkdx"""" LIKE """"fkdx",2024-08-27T09:59:31.956533,403,200,waf_correct_ml_incorrect,"(sELecT (seLECT '~' LiKE '~'))"""";seleCt count(*) fRom rdb$fields As t1,rdb$types AS t2,rdb$collations aS
+t3,rdb$functions aS t4	ANd """"fkdx"""" lIke """"fkdx",2024-08-27T09:59:39.094438,403,200,waf_correct_ml_incorrect,"(seLeCt (SELeCt '~' LIke '~'))"""";seLECt count(*) FRom/*$]`*/rdb$fields as t1,rdb$types aS t2,rdb$collations aS t3,rdb$functions aS t4	AnD """"fkdx"""" lIke """"fkdx",2024-08-27T09:59:46.261307,403,200,waf_correct_ml_incorrect,"(sELecT (SeLECt '~' LIKe '~'))"""";sELEct count(*) FROM rdb$fields as t1,rdb$types As t2,rdb$collations as t3,rdb$functions as
+t4	ANd """"fkdx"""" lIKE """"fkdx",2024-08-27T09:59:54.135086,403,403,both_correct,"(SELecT (SElECT '~' lIKe '~'))"""";SELECT count(*) fRoM/**/rdb$fields as t1,rdb$types AS t2,rdb$collations aS t3,rdb$functions As t4	And """"fkdx"""" LiKE """"fkdx",2024-08-27T10:00:01.339840,403,200,waf_correct_ml_incorrect
+4,2024-08-27T10:00:08.770308,-4803%')) or 8571=8571-,403,403,403,both_correct,-(SELECT 6204 NOT LIKE 6205)%')) or 8571=/**/And	1-,2024-08-27T10:00:09.839356,403,403,both_correct,"-(sElEcT 6204 not like (SELECT 6205))%')) OR (SELECT 1)= aNd
+'aU' NOT LIKE 'aUu'-",2024-08-27T10:00:13.200793,403,403,both_correct,-(sELECT (SeLecT 1265<>1266) not/**/LiKe (sELECT 6205))%')) OR (SELECT (SELECT 1))= aNd 'aU' NOT LIKE 'aUu'-,2024-08-27T10:00:18.145577,403,403,both_correct,"-(SeLECT (seLEct 1265!='{' NOT LIKE '{U') not/**/lIKe (SeLECt (SElect/**/1)))%')) OR (SELECT (SELECT (SELECT 1)))= aNd 'aU'
+NOT LIKE 'aUu'-",2024-08-27T10:00:23.617387,403,403,both_correct,"-(selEcT (SeLECt 1265!='{' not like '{U') not	lIKe (SeLeCT (SElEcT/*F
+*/ and 1)))%')) OR (SELECT (SELECT (SELECT (SELECT 5428 IN (5427,5428,5429)))))= aNd 'aU'
+NOT LIKE 'aUu'-",2024-08-27T10:00:30.361354,403,403,both_correct
+5,2024-08-27T10:00:38.944972,"calle capitan godoy beltran, 120",200,200,200,both_correct,"calle capitan/*>'kc'
+NOT LIKE 'kcC'*/godoy beltran,  and 0x1",2024-08-27T10:00:40.395151,200,200,both_correct,"calle capitan/**/godoy beltran,/**/ ANd
+0x1",2024-08-27T10:00:44.241430,200,200,both_correct,"calle capitan/*gh;&*/godoy beltran,/**//**/aND 0x1",2024-08-27T10:00:48.023042,200,200,both_correct,"calle/**/capitan/*gh;&*/godoy
+beltran,/*Zz1*//**/anD 0x1",2024-08-27T10:00:51.553441,200,200,both_correct,"calle capitan/**/godoy
+beltran,/*gF84*//**/And	0x1",2024-08-27T10:00:55.485927,200,200,both_correct
+
+Overall Results
+WAF TP,23
+WAF TN,6
+WAF FP,0
+WAF FN,1
+ML TP,18
+ML TN,6
+ML FP,0
+ML FN,6
+
+Combined Results (2x2 Matrix)
+,WAF Correct,WAF Incorrect
+ML Correct,23,1
+ML Incorrect,6,0

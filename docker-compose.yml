@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+    volumes:
+      - ./client/logs:/app/logs
+      - ./client:/app/client
+    networks:
+      - app-network
+    depends_on:
+      - server
+    environment:
+      - NUM_SAMPLES=20 # Adjust the number of samples as needed
+      - NUM_FUZZING_ROUNDS=10 # Adjust the number of fuzzing rounds as needed
+
+  server:
+    build:
+      context: ./server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server/logs:/app/logs
+      - ./server:/app/server
+    networks:
+      - app-network
+    depends_on:
+      - waf
+      - ml
+
+  waf:
+    image: waf-image
+    build:
+      context: ./waf
+    networks:
+      - app-network
+
+  ml:
+    build:
+      context: ./ml
+    ports:
+      - "8000:8000"  # Map ML service port 8000 to host port 8000
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
