@@ -1,235 +1,303 @@
 # TEE-WAFs-Framework
 
-Test execution environment for Web Application Firewalls (WAFs), including an ML-based WAF service, a target server, a client/fuzzer, and a WAF container.
+Docker-based research framework for analyzing payload datasets and comparing a
+rule-based WAF with an ML-based WAF under original and fuzzed traffic.
 
 ## Overview
 
-This repository provides a reproducible Docker-based setup to evaluate WAF behavior and compare outcomes across fuzzing rounds and payload sets.
+The framework provides a reproducible workflow with two connected stages:
+
+1. Assess the internal quality of the input dataset before an experiment.
+2. Send sampled and fuzzed payloads through both WAFs and compare their decisions.
+
+The dataset stage checks completeness, label consistency, redundancy, balance,
+entropy, and available attack-family coverage. The benchmark stage records whether
+the rule-based and ML-based WAFs classified each request correctly.
 
 ## Research Context
 
-Web Application Firewalls (WAFs) are a first line of defense for inspecting incoming HTTP requests and filtering malicious payloads. In practice, separating malicious and benign traffic is difficult, and there is no universal detection criterion that works across all scenarios.
+Machine-learning WAF performance may be influenced by dataset and evaluation bias.
+A model can appear effective when its dataset contains duplicates, contradictory
+labels, limited attack families, unrealistic class distributions, or leakage
+between training and evaluation data.
 
-Machine Learning (ML) has emerged as an alternative to rule-based WAFs by learning decision boundaries from data instead of relying only on manually crafted signatures. However, ML-WAF reliability remains uncertain because recurring dataset and evaluation biases can inflate performance under controlled conditions while reducing robustness in adversarial settings.
+This project supports experiments across three related dimensions:
 
-This project supports a benchmarking methodology to systematically measure such biases across three dimensions:
+- Dataset diversity and internal quality
+- Training validity
+- Evaluation robustness under fuzzed inputs
 
-- dataset diversity
-- training validity
-- evaluation robustness
+WAF-Brain is used as the ML-WAF case study, while a ModSecurity/Apache container
+provides the rule-based comparison.
 
-The framework is applied to WafBrain as an in-depth case study and also validated on Barracuda WAF, a widely deployed commercial product.
+## Components
 
-Main services in [docker-compose.yml](docker-compose.yml):
+- `client`: analyzes the dataset, samples payloads, generates fuzzed variants,
+  sends requests, and records benchmark results
+- `server`: accepts client requests and coordinates both WAF decisions
+- `ml_waf`: WAF-Brain-based ML service
+- `rb_waf`: ModSecurity/Apache rule-based WAF
 
-- `client`: sends payloads and fuzzed requests
-- `server`: target web app
-- `ml`: WAF-Brain based ML service
-- `waf`: ModSecurity/Apache based WAF container
-
-## Architecture and Request Flow
-
-Service topology from [docker-compose.yml](docker-compose.yml):
-
-- `client` generates and sends payload traffic.
-- `server` is exposed on host port `5000`.
-- `ml` is exposed on host port `8000`.
-- `waf` and `ml` are upstream dependencies for `server`.
+## Architecture and Workflow
 
 ```mermaid
 flowchart LR
-   U[User / Test Operator] --> C[client container]
-   C --> S[server container :5000]
-   S --> W[waf container]
-   S --> M[ml container :8000]
-   C --> R[(Result CSVs and Logs)]
-   S --> R
-   W --> R
+   D[(payloads.csv)] --> A[Dataset quality analysis]
+   A --> Q[(Dataset Analysis reports)]
+   A --> C[Sampling and SQL fuzzing]
+   C --> S[server :5000]
+   S --> W[rb_waf]
+   S --> M[ml_waf :8000]
+   C --> R[(Benchmark results and logs)]
 ```
 
-Typical execution flow:
+Execution order:
 
-1. `client` reads payloads and fuzzing settings.
-2. `client` analyzes dataset integrity, diversity, redundancy, and label balance.
-3. `client` sends requests to `server`.
-4. `server` evaluates traffic with `waf` and `ml` support.
-5. All components write logs; client writes benchmark CSV results.
+1. The client reads `payloads.csv` and validates its schema.
+2. If enabled, it analyzes the complete dataset and prints a quality report.
+3. It saves detailed JSON and CSV analysis artifacts.
+4. It randomly selects the configured number of original payloads.
+5. It sends each original payload and its generated fuzzed variants to the server.
+6. The server obtains decisions from `rb_waf` and `ml_waf`.
+7. The client writes individual outcomes, confusion counts, and a combined matrix.
+8. Docker Compose stops the stack after the client finishes when run with the
+   recommended command below.
 
 ## Prerequisites
 
-Install the following before running:
-
-- Docker Desktop (includes Docker Compose)
+- Docker Desktop, including Docker Compose
 - Git
-- Optional: Python 3.9+ for local script testing outside containers
-- Optional: Visual Studio Code for development
+- Optional: Python 3.9+ for local development
+
+Verify Docker before starting:
+
+```powershell
+docker --version
+docker compose version
+```
 
 ## Quick Start
 
-1. Clone this repository:
+Clone the repository:
 
-   ```bash
-   git clone https://github.com/imhamzasajjad/TEE-WAFs-Framework
-   cd TEE-WAFs-Framework
-   ```
-
-2. Start Docker Desktop and verify Docker is running.
-
-3. Run the full stack with Docker Compose.
-
-   Important: run Docker first, then proceed with the rest of the workflow.
-
-   ```bash
-   docker compose up --build
-   ```
-
-   To change benchmark size, edit `NUM_SAMPLES` and `NUM_FUZZING_ROUNDS` in `docker-compose.yml` under the `client` service before running.
-
-4. Watch logs and validate services:
-
-   ```bash
-   docker compose logs -f
-   ```
-
-5. Stop the stack when done:
-
-   ```bash
-   docker compose down
-   ```
-
-## Sample Run and Validation
-
-After `docker compose up --build`, you should see messages similar to:
-
-```text
-[+] Running 5/5
- ✔ Network tee-wafs-framework_app-network  Created
- ✔ Container tee-wafs-framework-ml-1       Started
- ✔ Container tee-wafs-framework-waf-1      Started
- ✔ Container tee-wafs-framework-server-1   Started
- ✔ Container tee-wafs-framework-client-1   Started
+```powershell
+git clone https://github.com/imhamzasajjad/TEE-WAFs-Framework
+cd TEE-WAFs-Framework
 ```
 
-Quick checks:
+Build and run the complete experiment:
 
-1. Verify running containers:
-
-   ```bash
-   docker compose ps
-   ```
-
-2. Verify API/service ports from host:
-
-   ```bash
-   curl http://localhost:5000
-   curl http://localhost:8000
-   ```
-
-3. Verify outputs were generated:
-
-   - `client/logs/`
-   - `client/Results/`
-   - `server/logs/`
-   - `rb_waf/logs/`
-
-If any service exits early, check:
-
-```bash
-docker compose logs server
-docker compose logs ml
-docker compose logs waf
-docker compose logs client
+```powershell
+docker compose up --build --abort-on-container-exit --exit-code-from client
 ```
 
-## Configuration
+The client first prints the dataset report, then sends the configured original and
+fuzzed payloads. After the final combined result, Compose stops the remaining
+services and returns the client's exit code.
 
-Environment variables for the client are defined in [docker-compose.yml](docker-compose.yml):
+For subsequent runs that do not contain source changes:
 
-- `NUM_SAMPLES` (default currently `20`)
-- `NUM_FUZZING_ROUNDS` (default currently `10`)
-
-Adjust these values to control benchmark size and runtime.
-
-Location to edit:
-
-```yaml
-services:
-   client:
-      environment:
-         - NUM_SAMPLES=1
-         - NUM_FUZZING_ROUNDS=2
+```powershell
+docker compose up --abort-on-container-exit --exit-code-from client
 ```
 
-After changing values, run:
+Stop and remove the stack manually if required:
 
-```bash
-docker compose up --build
+```powershell
+docker compose down
 ```
 
-## Dataset
+## Client Configuration
 
-The project uses the HTTP Params Dataset from Kaggle:
-
-- [HTTP Params Dataset](https://www.kaggle.com/datasets/evg3n1j/httpparamsdataset)
-
-Before fuzzing, the client automatically analyzes `client/payloads.csv`. It creates
-`client/Dataset Analysis/` when needed and writes:
-
-- `dataset_analysis.json`: full score, verdict, statistics, critical findings, and limitations
-- `dataset_analysis.csv`: compact, human-readable metric table
-- `chunk_entropy.csv`: byte entropy for each 256-byte region of the source file
-
-The client prints the main dataset statistics and quality scores before it starts
-sending original or fuzzed payloads. This makes the dataset verdict visible in the
-Docker logs without opening either report file.
-
-The analysis includes whole-file and chunk-wise byte entropy, per-payload character
-entropy, unique/canonical payload ratios, duplicate and conflicting-label checks,
-label balance, and attack-category coverage when a category column is available.
-File entropy is reported as diagnostic evidence rather than scored directly because
-CSV formatting, encoding, row order, and repeated labels influence it.
-
-The verdict is an explainable internal-quality heuristic. It does not prove that a
-dataset represents real traffic, and leakage or attack-family coverage require
-additional split/category columns or separate datasets.
-
-Dataset analysis can be enabled or skipped in `docker-compose.yml`:
+Client settings are defined under `services.client.environment` in
+[`docker-compose.yml`](docker-compose.yml):
 
 ```yaml
 services:
   client:
     environment:
-      - ANALYZE_DATASET=yes # Change to no to skip analysis
+      - ANALYZE_DATASET=yes
+      - NUM_SAMPLES=1
+      - NUM_FUZZING_ROUNDS=1
 ```
 
-When disabled, the benchmark runs normally and existing analysis reports are left
-unchanged. Accepted enabled values are `yes`, `true`, `on`, and `1`; all other
-values disable the analyzer.
+| Variable | Purpose |
+|---|---|
+| `ANALYZE_DATASET` | `yes` runs analysis; `no` skips it during repeated experiments. |
+| `NUM_SAMPLES` | Number of original rows randomly selected from the dataset. |
+| `NUM_FUZZING_ROUNDS` | Number of fuzzed variants generated per selected row. |
+| `PAYLOADS_FILE` | Input path inside the client container; defaults to `payloads.csv`. |
+| `DATASET_ANALYSIS_DIR` | Report directory; defaults to `Dataset Analysis`. |
 
-## Project Documentation
+Enabled values for `ANALYZE_DATASET` are `yes`, `true`, `on`, and `1`, ignoring
+case. Other values disable analysis. When disabled, payload testing runs normally
+and existing analysis reports remain unchanged.
 
-- Top-level usage and orchestration: [README.md](README.md)
-- ML module documentation: [ml_waf/README.rst](ml_waf/README.rst)
-- ML contribution guide: [ml_waf/CONTRIBUTING.md](ml_waf/CONTRIBUTING.md)
+## Dataset Quality Analysis
 
-## Results and Logs
+### Input format
 
-Generated outputs are stored in:
+The default input is [`client/payloads.csv`](client/payloads.csv). It must contain
+a payload column and a label or HTTP-status column:
 
-- `client/logs/` and `client/Results/`
-- `server/logs/`
-- `rb_waf/logs/`
-- `Results/` (experiment outputs)
+```csv
+payload,status code
+"normal search query",200
+"' OR 1=1 --",403
+```
+
+The analyzer recognizes common alternatives including `request`, `text`, `input`,
+`query`, `label`, `class`, and `target`. If an `attack category`, `attack type`,
+`category`, or `family` column exists, attack-family coverage is also reported.
+
+### What is measured
+
+| Dimension | Measurements | Why it matters |
+|---|---|---|
+| Integrity | Valid rows, missing payloads/labels, conflicting labels | Broken or contradictory records weaken training and evaluation. |
+| Payload diversity | Canonical uniqueness and character vocabulary | Indicates whether the input contains varied payloads. |
+| Redundancy | Exact and normalized duplicates | Repetition can inflate results and overrepresent patterns. |
+| Label balance | Counts and normalized Shannon entropy | Imbalance can bias a classifier toward the majority class. |
+| Payload complexity | Per-payload character entropy and length statistics | Describes internal payload structure and variation. |
+| File structure | Whole-file and 256-byte chunk entropy | Exposes repetitive or compositionally different file regions. |
+| Attack coverage | Category counts when metadata is available | Shows which attack families are represented. |
+
+Canonical comparison URL-decodes payloads, converts them to lowercase, collapses
+whitespace, and trims surrounding whitespace. This catches records that differ in
+formatting but represent the same normalized payload.
+
+Whole-file and chunk entropy are diagnostic evidence, not direct score inputs. CSV
+formatting, encoding, row order, repeated labels, compression, and random noise can
+change byte entropy without making the dataset more useful.
+
+### Score and verdict
+
+The internal quality score combines four components:
+
+- Integrity: 30%
+- Payload diversity: 30%
+- Low redundancy: 20%
+- Label balance: 20%
+
+| Score | Verdict | Interpretation |
+|---:|---|---|
+| 80-100 | Suitable | Strong internal structure for an experiment. |
+| 60-79.99 | Usable with caution | Review warnings before using the dataset. |
+| 40-59.99 | High risk | Important quality problems may affect results. |
+| 0-39.99 | Unsuitable | Correct the dataset before testing. |
+
+Critical conditions—including an empty or very small dataset or excessive label
+conflicts—cap the verdict at `Unsuitable`. The thresholds are transparent research
+defaults and may need calibration for another domain.
+
+The verdict describes **internal dataset quality**. It is not proof that a dataset:
+
+- Represents real production traffic
+- Covers every attack family
+- Is free from collection or source bias
+- Has no train/test leakage
+- Is suitable for every ML-WAF architecture
+
+Leakage analysis requires split membership or separate training and test files.
+Semantic coverage requires category metadata or a trusted reference dataset.
+
+### Console output
+
+When enabled, analysis is printed before any payload is sent:
+
+```text
+================================================================
+DATASET ANALYSIS
+================================================================
+Verdict                  : Suitable
+Overall score            : 99.32/100
+Total / valid rows       : 19275 / 19275
+Label distribution       : 200: 7953, 403: 11322
+Exact duplicate rows     : 76
+Canonical duplicate rows : 94
+Conflicting labels       : 2
+Mean character entropy   : 3.2497 bits
+Whole-file byte entropy  : 4.5277 bits/byte
+Chunk entropy mean/range : 4.1147 (3.0968-5.0178) bits/byte
+Attack categories        : unavailable (no category column)
+================================================================
+```
+
+### Generated reports
+
+The client creates `client/Dataset Analysis/` automatically. Its Compose volume
+keeps these files on the host:
+
+- `dataset_analysis.json`: complete machine-readable evidence, verdict, critical
+  findings, thresholds, and limitations
+- `dataset_analysis.csv`: compact table of scored quality components
+- `chunk_entropy.csv`: entropy measurement for each 256-byte file region
+
+Generated report files are intentionally ignored by Git because each run can
+replace them. The directory itself is retained in the repository.
+
+The current payload data originates from the
+[HTTP Params Dataset](https://www.kaggle.com/datasets/evg3n1j/httpparamsdataset).
+
+## Benchmark Results
+
+For every original and fuzzed payload, the client records:
+
+- Expected/original status
+- Rule-based WAF status
+- ML-WAF status
+- Whether each WAF was correct
+- Whether both systems agreed or disagreed
+
+It also calculates TP, TN, FP, and FN totals and prints a combined 2x2 comparison:
+
+```text
+Combined Results (2x2 Matrix):
+               WAF Correct    WAF Incorrect
+ML Correct     2              0
+ML Incorrect   0              0
+```
+
+## Output Locations
+
+- `client/Dataset Analysis/`: dataset score, evidence, and chunk entropy
+- `client/logs/`: request-level client results and aggregate metrics
+- `client/Results/`: stored experiment results
+- `server/logs/`: server-side request decisions
+- `rb_waf/logs/`: rule-based WAF logs, when available
+
+## Testing the Analyzer
+
+The analyzer uses the Python standard library and has focused unit tests:
+
+```powershell
+cd client
+python -m unittest discover -s tests -v
+```
 
 ## Troubleshooting
 
-- If containers fail to start, ensure Docker Desktop is running and has enough memory.
-- If ports are busy, check local services on `5000` and `8000`.
-- If images are stale, rebuild:
+If updated client functionality does not appear, rebuild only the client image:
 
-  ```bash
-  docker compose down
-  docker compose build --no-cache
-  docker compose up
-  ```
-   
+```powershell
+docker compose down
+docker compose build --no-cache client
+docker compose up --abort-on-container-exit --exit-code-from client
+```
+
+Inspect individual service logs:
+
+```powershell
+docker compose logs client
+docker compose logs server
+docker compose logs ml_waf
+docker compose logs rb_waf
+```
+
+If ports are busy, check local services using ports `5000` and `8000`. Ensure Docker
+Desktop has sufficient CPU and memory if builds or services stop unexpectedly.
+
+## Additional Documentation
+
+- ML module: [`ml_waf/README.rst`](ml_waf/README.rst)
+- ML contribution guide: [`ml_waf/CONTRIBUTING.md`](ml_waf/CONTRIBUTING.md)
