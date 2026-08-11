@@ -50,9 +50,10 @@ flowchart LR
 Typical execution flow:
 
 1. `client` reads payloads and fuzzing settings.
-2. `client` sends requests to `server`.
-3. `server` evaluates traffic with `waf` and `ml` support.
-4. All components write logs; client writes benchmark CSV results.
+2. `client` analyzes dataset integrity, diversity, redundancy, and label balance.
+3. `client` sends requests to `server`.
+4. `server` evaluates traffic with `waf` and `ml` support.
+5. All components write logs; client writes benchmark CSV results.
 
 ## Prerequisites
 
@@ -170,6 +171,40 @@ docker compose up --build
 The project uses the HTTP Params Dataset from Kaggle:
 
 - [HTTP Params Dataset](https://www.kaggle.com/datasets/evg3n1j/httpparamsdataset)
+
+Before fuzzing, the client automatically analyzes `client/payloads.csv`. It creates
+`client/Dataset Analysis/` when needed and writes:
+
+- `dataset_analysis.json`: full score, verdict, statistics, critical findings, and limitations
+- `dataset_analysis.csv`: compact, human-readable metric table
+- `chunk_entropy.csv`: byte entropy for each 256-byte region of the source file
+
+The client prints the main dataset statistics and quality scores before it starts
+sending original or fuzzed payloads. This makes the dataset verdict visible in the
+Docker logs without opening either report file.
+
+The analysis includes whole-file and chunk-wise byte entropy, per-payload character
+entropy, unique/canonical payload ratios, duplicate and conflicting-label checks,
+label balance, and attack-category coverage when a category column is available.
+File entropy is reported as diagnostic evidence rather than scored directly because
+CSV formatting, encoding, row order, and repeated labels influence it.
+
+The verdict is an explainable internal-quality heuristic. It does not prove that a
+dataset represents real traffic, and leakage or attack-family coverage require
+additional split/category columns or separate datasets.
+
+Dataset analysis can be enabled or skipped in `docker-compose.yml`:
+
+```yaml
+services:
+  client:
+    environment:
+      - ANALYZE_DATASET=yes # Change to no to skip analysis
+```
+
+When disabled, the benchmark runs normally and existing analysis reports are left
+unchanged. Accepted enabled values are `yes`, `true`, `on`, and `1`; all other
+values disable the analyzer.
 
 ## Project Documentation
 

@@ -7,13 +7,15 @@ services:
     volumes:
       - ./client/logs:/app/logs
       - ./client:/app/client
+      - "./client/Dataset Analysis:/app/Dataset Analysis"
     networks:
       - app-network
     depends_on:
       - server
     environment:
-      - NUM_SAMPLES=2 # Adjust the number of samples as needed
-      - NUM_FUZZING_ROUNDS=3 # Adjust the number of fuzzing rounds as needed
+      - ANALYZE_DATASET=yes # Set to no to skip analysis on repeated benchmark runs
+      - NUM_SAMPLES=1 # Adjust the number of samples as needed
+      - NUM_FUZZING_ROUNDS=1 # Adjust the number of fuzzing rounds as needed
 
   server:
     build:
