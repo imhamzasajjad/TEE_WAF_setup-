@@ -5,6 +5,44 @@ from datetime import datetime
 import time
 import random
 from sqlfuzzer import SqlFuzzer  # Import your fuzzer class
+from dataset_analyzer import analyze_dataset
+
+
+def print_dataset_analysis(report, analysis_dir):
+    summary = report['summary']
+    statistics = report['payload_statistics']
+    labels = ', '.join(f"{label}: {count}" for label, count in summary['labels'].items())
+
+    print("\n" + "=" * 64)
+    print("DATASET ANALYSIS")
+    print("=" * 64)
+    print(f"Verdict                  : {report['verdict']}")
+    print(f"Overall score            : {report['score']}/100")
+    print(f"Total / valid rows       : {summary['total_rows']} / {summary['valid_rows']}")
+    print(f"Missing payloads/labels  : {summary['missing_payloads']} / {summary['missing_labels']}")
+    print(f"Label distribution       : {labels or 'No labels found'}")
+    print(f"Exact duplicate rows     : {summary['exact_duplicate_rows']}")
+    print(f"Canonical duplicate rows : {summary['canonical_duplicate_rows']}")
+    print(f"Conflicting labels       : {summary['conflicting_canonical_payloads']}")
+    print(f"Mean character entropy   : {statistics['character_entropy_mean_bits']} bits")
+    print(f"Whole-file byte entropy  : {report['file_entropy']['whole_file_bits_per_byte']} bits/byte")
+    print(f"Chunk entropy mean/range : {report['file_entropy']['chunk_mean_bits_per_byte']} "
+          f"({report['file_entropy']['chunk_min_bits_per_byte']}-"
+          f"{report['file_entropy']['chunk_max_bits_per_byte']}) bits/byte")
+    category_coverage = report['attack_category_coverage']
+    if category_coverage['available']:
+        print(f"Attack categories        : {category_coverage['distinct_categories']}")
+    else:
+        print("Attack categories        : unavailable (no category column)")
+    print("\nQuality scores:")
+    for metric in report['metrics']:
+        print(f"  - {metric['name']:<20} {metric['score']:>6.2f}/100  [{metric['status']}]")
+    if report['critical_findings']:
+        print("\nCritical findings:")
+        for finding in report['critical_findings']:
+            print(f"  - {finding}")
+    print(f"\nFull reports             : {analysis_dir}")
+    print("=" * 64 + "\n", flush=True)
 
 # Function to wait until services are ready (if needed)
 def wait_until_services_ready():
@@ -61,14 +99,21 @@ def determine_combined_result(original_status, waf_status, ml_status):
 
 # Function to run the main process
 def main():
+    payloads_file = os.getenv('PAYLOADS_FILE', 'payloads.csv')
+    analysis_dir = os.getenv('DATASET_ANALYSIS_DIR', 'Dataset Analysis')
+    analyze_dataset_enabled = os.getenv('ANALYZE_DATASET', 'yes').strip().lower() in ('1', 'true', 'yes', 'on')
+    if analyze_dataset_enabled:
+        report = analyze_dataset(payloads_file, analysis_dir)
+        print_dataset_analysis(report, analysis_dir)
+    else:
+        print("Dataset analysis skipped (ANALYZE_DATASET=no)", flush=True)
+
     wait_until_services_ready()  # Wait for services to start up
 
     # Get environment variables for the number of random samples and fuzzing rounds
     num_samples = int(os.getenv('NUM_SAMPLES', 10))  # Default to 10 if not set
     num_fuzzing_rounds = int(os.getenv('NUM_FUZZING_ROUNDS', 5))  # Default to 5 if not set
 
-    payloads_file = 'payloads.csv'
-    
     with open(payloads_file, mode='r') as file:
         reader = csv.reader(file)
         headers = next(reader)  # Read the header row
